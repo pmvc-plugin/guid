@@ -1,0 +1,22 @@
+{
+    "name": "pmvc-plugin/guid",
+    "description": "Id of Things",
+    "type": "library",
+    "keywords": ["guid", "pmvc", "plug-in"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hill",
+            "email": "hill@kimo.com"
+        }
+    ],
+    "require": {
+        "pmvc/pmvc": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "IdOfThings\\": "./src"
+        }
+    },
+    "minimum-stability": "dev"
+}
