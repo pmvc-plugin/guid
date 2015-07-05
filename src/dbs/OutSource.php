@@ -10,9 +10,9 @@ class OutSource
         $this->db = $db;
     }
 
-    public add104OurSource($case)
+    public function add104OutSource($case)
     {
-        $site_id = $case['site_id']
+        $site_id = $case->site_id;
         $db_104 = $this->get104Db();
         $db_case = $this->getOutSourceDb(); 
         $guid = $this->db->hget($db_104,$site_id);
@@ -24,13 +24,23 @@ class OutSource
             }
             $this->db->hset($db_104,$site_id,$guid);
         }
-        $case['guid'] = $guid;
+        $case->guid = $guid;
         $json = json_encode($case); 
         $this->db->hset($db_case,$guid,$json);
         return $guid;
     }    
 
-    public isOurSourceExists($key)
+    public function all($data=array())
+    {
+        $db_case = $this->getOutSourceDb(); 
+        if(empty($data)){
+	    return $this->db->hgetall($db_case);
+        }else{
+	    return $this->db->multi_hget($db_case,$data);
+        }
+    }
+
+    public function isOurSourceExists($key)
     {
         $db_case = $this->getOutSourceDb(); 
         return $this->db->hexists($db_case, $key);
@@ -39,17 +49,17 @@ class OutSource
     
     private function get104Db()
     {
-        return \PMVC\plug('guid')->getDbKey('out_source_104');
+        return \PMVC\plug('guid')->getDbKey('out_source_104_ids');
     }
 
     private function get518Db()
     {
-        return \PMVC\plug('guid')->getDbKey('out_source_518');
+        return \PMVC\plug('guid')->getDbKey('out_source_518_ids');
     }
 
     private function getOutSourceDb()
     {
-        return \PMVC\plug('guid')->getDbKey('out_source');
+        return \PMVC\plug('guid')->getDbKey('out_source_ids');
     }
 
 }

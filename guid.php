@@ -30,7 +30,7 @@ class guid extends \PMVC\PlugIn
 
     public function getDbKey($key)
     {
-        if(!$this->db_key_map[$key]){
+        if(empty($this->db_key_map[$key])){
             $this->db_key_map[$key] =$this->getStorage()->hget('keys',$key);
         }
         return $this->db_key_map[$key];
