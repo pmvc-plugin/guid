@@ -21,4 +21,20 @@ class GuidTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(19===strlen($id),"id length no 19: ".$id);
     }
 
+    function testGetDb()
+    {
+        $fake_db = 'FakeSSDB';
+        PMVC\plug('fake_ssdb',array(
+            _CLASS => $fake_db
+        ));
+        $db = PMVC\plug($this->plug)->getDb('manager');
+        $this->assertEquals($fake_db,get_class($db->db));
+    }
 }
+
+class FakeSSDB extends \PMVC\PlugIn
+{
+}
+
+
+
