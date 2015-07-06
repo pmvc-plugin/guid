@@ -1,65 +1,42 @@
 <?php
 namespace IdOfThings\dbs;
 
-class OutSource 
+class OutSource extends \IdOfThings\BaseDb 
 {
-    public $db;
-
-    public function __construct($db)
-    {
-        $this->db = $db;
-    }
+    protected $default_key='out_source_ids';
 
     public function add104OutSource($case)
     {
+        $plugGuid = \PMVC\plug('guid'); 
+        $db_104 = $plugGuid->getDb('OutSource104');
+        return $this->addDifferentSourceBySite($case,$db_104);
+    }
+
+    public function add518OutSource($case)
+    {
+        $plugGuid = \PMVC\plug('guid'); 
+        $db_518 = $plugGuid->getDb('OutSource518');
+        return $this->addDifferentSourceBySite($case,$db_518);
+    } 
+
+    public function addDifferentSourceBySite($case,$db_site)
+    {
+        $plugGuid = \PMVC\plug('guid'); 
         $site_id = $case->site_id;
-        $db_104 = $this->get104Db();
-        $db_case = $this->getOutSourceDb(); 
-        $guid = $this->db->hget($db_104,$site_id);
+        $db_case = $this; 
+        $guid = $db_site[$site_id];
         if (!$guid) {
-            $generator = \PMVC\plug('guid');
-            $guid = $generator->gen();
-            while($this->isOurSourceExists($guid)){
-                $guid = $generator->gen();
+            $guid = $plugGuid->gen();
+            while(isset($db_case[$guid])){
+                $guid = $plugGuid->gen();
             }
-            $this->db->hset($db_104,$site_id,$guid);
+            $db_site[$site_id] = $guid;
         }
         $case->guid = $guid;
         $json = json_encode($case); 
-        $this->db->hset($db_case,$guid,$json);
+        $db_case[$guid] = $json;
         return $guid;
-    }    
-
-    public function all($data=array())
-    {
-        $db_case = $this->getOutSourceDb(); 
-        if(empty($data)){
-	    return $this->db->hgetall($db_case);
-        }else{
-	    return $this->db->multi_hget($db_case,$data);
-        }
     }
 
-    public function isOurSourceExists($key)
-    {
-        $db_case = $this->getOutSourceDb(); 
-        return $this->db->hexists($db_case, $key);
-    }
-
-    
-    private function get104Db()
-    {
-        return \PMVC\plug('guid')->getDbKey('out_source_104_ids');
-    }
-
-    private function get518Db()
-    {
-        return \PMVC\plug('guid')->getDbKey('out_source_518_ids');
-    }
-
-    private function getOutSourceDb()
-    {
-        return \PMVC\plug('guid')->getDbKey('out_source_ids');
-    }
 
 }

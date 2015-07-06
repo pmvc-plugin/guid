@@ -6,7 +6,6 @@ ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\guid';
 class guid extends \PMVC\PlugIn
 {
     private $dbs;
-    private $db_key_map;
     public function init()
     {
         $guid = new BigIntGuid(); 
@@ -28,11 +27,4 @@ class guid extends \PMVC\PlugIn
         return \PMVC\plug($guid_db);
     }
 
-    public function getDbKey($key)
-    {
-        if(empty($this->db_key_map[$key])){
-            $this->db_key_map[$key] =$this->getStorage()->hget('keys',$key);
-        }
-        return $this->db_key_map[$key];
-    }
 }
