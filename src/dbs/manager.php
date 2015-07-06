@@ -5,7 +5,7 @@ class manager extends \IdOfThings\BaseDb
 {
     public function addNewKey($key)
     {
-        $plugGuid = \PMVC:plug('guid'); 
+        $plugGuid = \PMVC\plug('guid'); 
         $gloKey = $plugGuid->getDb('GlobalKey');
         $gloGuid= $plugGuid->getDb('GlobalGuid');
         if (isset($gloKey[$key])) {
@@ -23,7 +23,7 @@ class manager extends \IdOfThings\BaseDb
 
     public function removeKey($guid)
     {
-        $plugGuid = \PMVC:plug('guid'); 
+        $plugGuid = \PMVC\plug('guid'); 
         $gloKey = $plugGuid->getDb('GlobalKey');
         $gloGuid= $plugGuid->getDb('GlobalGuid');
         if(isset($gloGuid[$guid])){
@@ -39,7 +39,7 @@ class manager extends \IdOfThings\BaseDb
         if (!strlen($newKey)) {
             return false;
         } else {
-            $plugGuid = \PMVC:plug('guid'); 
+            $plugGuid = \PMVC\plug('guid'); 
             $gloKey = $plugGuid->getDb('GlobalKey');
             $gloGuid= $plugGuid->getDb('GlobalGuid');
             $oldKey = $gloGuid[$guid];
