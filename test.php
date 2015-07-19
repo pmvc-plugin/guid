@@ -24,6 +24,8 @@ class GuidTest extends PHPUnit_Framework_TestCase
     function testGetDb()
     {
         $fake_db = 'FakeSSDB';
+        //https://github.com/pmvc-plugin/guid/blob/master/phpunit.xml#L22
+        //<env name="GUID_DB" value="fake_ssdb"/>
         PMVC\plug('fake_ssdb',array(
             _CLASS => $fake_db
         ));
@@ -34,6 +36,7 @@ class GuidTest extends PHPUnit_Framework_TestCase
 
 class FakeSSDB extends \PMVC\PlugIn
 {
+    function getdb(){return $this;}
 }
 
 
