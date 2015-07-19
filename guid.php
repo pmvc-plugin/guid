@@ -16,7 +16,9 @@ class guid extends \PMVC\PlugIn
     {
         if(empty($this->dbs[$key])){
             $class =  __NAMESPACE__.'\dbs\\'.$key;
-            $this->dbs[$key] = new $class($this->getStorage());
+            $this->dbs[$key] = new $class(
+                $this->getStorage()
+            );
         }
         return $this->dbs[$key];
     }
@@ -24,7 +26,11 @@ class guid extends \PMVC\PlugIn
     public function getStorage()
     {
         $guid_db = getenv('GUID_DB'); 
-        return \PMVC\plug($guid_db);
+        if (empty($guid_db)) {
+            trigger_error('Need putenv "GUID_DB"');
+        } else {
+            return \PMVC\plug($guid_db);
+        }
     }
 
 }

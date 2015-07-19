@@ -1,6 +1,6 @@
 <?php
 namespace IdOfThings\dbs;
-class GlobalGuid extends \IdOfThings\BaseDb
+class GlobalGuid extends \IdOfThings\BaseGuidDb
 {
-    protected $default_db='guid';
+    protected $groupDb='guid';
 }

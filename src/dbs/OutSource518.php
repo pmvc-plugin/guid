@@ -1,6 +1,6 @@
 <?php
 namespace IdOfThings\dbs;
-class OutSource518 extends \IdOfThings\BaseDb
+class OutSource518 extends \IdOfThings\BaseGuidDb
 {
-    protected $default_key='out_source_518_ids';
+    protected $groupKey='out_source_518_ids';
 }

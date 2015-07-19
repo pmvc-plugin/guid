@@ -1,9 +1,9 @@
 <?php
 namespace IdOfThings\dbs;
 
-class OutSource extends \IdOfThings\BaseDb 
+class OutSource extends \IdOfThings\BaseGuidDb 
 {
-    protected $default_key='out_source_ids';
+    protected $groupKey='out_source_ids';
 
     private $dates;
 

@@ -1,7 +1,7 @@
 <?php
 namespace IdOfThings\dbs;
 
-class manager extends \IdOfThings\BaseDb
+class manager extends \IdOfThings\BaseGuidDb
 {
     public function addNewKey($key)
     {
@@ -15,7 +15,6 @@ class manager extends \IdOfThings\BaseDb
         while (isset($gloGuid[$newGuid])) {
             $newGuid = $plugGuid->gen();
         }
-        $this->db->hset('guid', $newGuid, $key);
         $gloGuid[$newGuid] = $key;
         $gloKey[$key] = $newGuid;
         return $newGuid;

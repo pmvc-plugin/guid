@@ -1,6 +1,6 @@
 <?php
 namespace IdOfThings\dbs;
-class OutSource104Dates extends \IdOfThings\BaseDb
+class OutSource104Dates extends \IdOfThings\BaseGuidDb
 {
-    protected $default_key='out_source_104_dates';
+    protected $groupKey='out_source_104_dates';
 }
