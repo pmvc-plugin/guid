@@ -58,7 +58,7 @@ class OutSource extends \IdOfThings\BaseGuidDb
         if (substr($sign,0,4)>=2014) {
             return $sign;
         }
-        if(!$this->date[$sign]){
+        if(empty($this->date[$sign])){
             $plugGuid = \PMVC\plug('guid'); 
             $db_images = $plugGuid->getDb('OutSource104Images');
             if(isset($db_images[$sign])){
