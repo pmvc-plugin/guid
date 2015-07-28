@@ -40,9 +40,13 @@ class OutSource extends \IdOfThings\BaseGuidDb
         $plugGuid = \PMVC\plug('guid'); 
         $db_images = $plugGuid->getDb('OutSource104Images');
         $db_dates = $plugGuid->getDb('OutSource104Dates');
-        foreach ($guess_dates as $k=>$v) {
-            $db_dates[$v['date']] = $k;    
-            $db_images[$k] = json_encode($v);    
+        foreach ($guess_dates as $token=>$v) {
+            if ( !isset($db_dates[$v['date']])
+                && !isset($db_images[$token])
+               ) {
+                $db_dates[$v['date']] = $token;    
+                $db_images[$token] = json_encode($v);
+            }
         }
     }
 
