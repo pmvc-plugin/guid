@@ -11,9 +11,6 @@ class guid extends \PMVC\PlugIn
         $guid = new BigIntGuid(); 
         $this->setDefaultAlias($guid);
         $this['GUID_DB'] = \PMVC\plug('get')->get('GUID_DB');
-        if (empty($this['GUID_DB'])) {
-            trigger_error('Need putenv "GUID_DB"');
-        }
     }
 
     public function getDb($key)
@@ -29,6 +26,9 @@ class guid extends \PMVC\PlugIn
 
     public function getStorage()
     {
+        if (empty($this['GUID_DB'])) {
+            trigger_error('Need putenv "GUID_DB"');
+        }
         return \PMVC\plug($this['GUID_DB']);
     }
 
