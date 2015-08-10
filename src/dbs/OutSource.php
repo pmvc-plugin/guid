@@ -35,19 +35,34 @@ class OutSource extends \IdOfThings\BaseGuidDb
     /**
      * add guess date
      */
-    public function addGuessDate($guess_dates)
+    public function addGuessDate($guess_dates,$force=null)
     {
         $plugGuid = \PMVC\plug('guid'); 
         $db_images = $plugGuid->getDb('OutSource104Images');
         $db_dates = $plugGuid->getDb('OutSource104Dates');
         foreach ($guess_dates as $token=>$v) {
+            $is_save = false;
             if ( !isset($db_dates[$v['date']])
                 && !isset($db_images[$token])
                ) {
-                $db_dates[$v['date']] = $token;    
-                $db_images[$token] = json_encode($v);
+                $this->excuteSaveGuessDate($token,$v);
+                $is_save = true;
+            }
+            if ($force && !$is_save) {
+                $origin_date = \PMVC\fromJson($db_images[$token])->date;
+                unset($db_dates[$origin_date]);
+                $this->excuteSaveGuessDate($token,$v);
             }
         }
+    }
+
+    public function excuteSaveGuessDate($token, $v)
+    {
+        $plugGuid = \PMVC\plug('guid'); 
+        $db_images = $plugGuid->getDb('OutSource104Images');
+        $db_dates = $plugGuid->getDb('OutSource104Dates');
+        $db_dates[$v['date']] = $token;    
+        $db_images[$token] = json_encode($v);
     }
 
     /**
