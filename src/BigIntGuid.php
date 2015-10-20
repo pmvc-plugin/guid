@@ -13,7 +13,22 @@ class BigIntGuid
         return $rand.$number;
     }
 
-    public function gen($guidLen=19)
+    public function gen($guidLen=null,$existsCallback=null)
+    {
+        if (empty($guidLen)) {
+            $guidLen = 19;
+        }
+        $newid = $this->_gen($guidLen);
+        if (is_callable($existsCallback)) {
+           while (call_user_func($existsCallback,$newid))
+           { 
+                $newid = $this->_gen($guidLen);
+           }
+        }
+        return $newid;
+    }
+
+    private function _gen($guidLen)
     {
         $date = explode(' ', date('Y m d H i s'));
         $d_y=$date[0];

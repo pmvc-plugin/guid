@@ -17,6 +17,9 @@ class guid extends \PMVC\PlugIn
     {
         if(empty($this->dbs[$key])){
             $class =  __NAMESPACE__.'\dbs\\'.$key;
+            if (!class_exists($class)) {
+                return !trigger_error('guid db not found ['.$class.']');
+            }
             $this->dbs[$key] = new $class(
                 $this->getStorage()
             );
