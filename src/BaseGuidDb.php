@@ -35,7 +35,7 @@ class BaseGuidDb implements \ArrayAccess
      *
      * @return mixed 
      */
-    public function offsetGet($k=null)
+    public function &offsetGet($k=null)
     {
         return $this->db->offsetGet($k);
     }

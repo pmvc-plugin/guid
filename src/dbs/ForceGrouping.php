@@ -1,6 +1,6 @@
 <?php
 namespace IdOfThings\dbs;
-class ForceRaw extends \IdOfThings\BaseGuidDb
+class ForceGrouping extends \IdOfThings\BaseGuidDb
 {
     protected $groupKey='force_grouping';
 }
