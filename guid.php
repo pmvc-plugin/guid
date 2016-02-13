@@ -34,5 +34,4 @@ class guid extends \PMVC\PlugIn
         }
         return \PMVC\plug($this['GUID_DB']);
     }
-
 }

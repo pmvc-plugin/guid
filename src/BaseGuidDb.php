@@ -66,4 +66,18 @@ class BaseGuidDb implements \ArrayAccess
     {
         return $this->db->offsetUnset($k);
     }
+
+    /**
+     * Super Call
+     */
+     public function __call($method, $args)
+     {
+         $func = array($this->db,$method);
+         if (is_callable($func)) {
+            return call_user_func_array(
+                $func,
+                $args
+            );
+         }
+     }
 }
