@@ -13,17 +13,22 @@ class minions extends \IdOfThings\BaseGuidDb
     function getUrlKey($url, $md5Only=false)
     {
        $urlMd5 = md5($url); 
-       $dbKey = sprintf($this->keys['url'], $urlMd5);
-       $guidPlug = \PMVC\plug('guid');
-       if (!isset($this[$dbKey])) {
-            $this[$dbKey] = $url; 
-       }
        if ($md5Only) {
           return $urlMd5;
        } else {
-          return $dbKey;
+          return $this->getUrlKeyByMd5($urlMd5);
        }
     }
+
+    function getUrlKeyByMd5($md5)
+    {
+       $dbKey = sprintf($this->keys['url'], $md5);
+       if (!isset($this[$dbKey])) {
+            $this[$dbKey] = $url; 
+       }
+       return $dbKey;
+    }
+
 
     function getListKey($date, $urlMd5)
     {

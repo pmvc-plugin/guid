@@ -1,9 +1,11 @@
 <?php
-PMVC\Load::plug();
-PMVC\addPlugInFolder('../');
+namespace IdOfThings;
+use PHPUnit_Framework_TestCase;
+use PMVC;
+
 class GuidTest extends PHPUnit_Framework_TestCase
 {
-    private $plug = 'guid';
+    private $plug = TestPlug;
     function testPlugin()
     {
         ob_start();
@@ -23,7 +25,7 @@ class GuidTest extends PHPUnit_Framework_TestCase
 
     function testGetDb()
     {
-        $fake_db = 'FakeSSDB';
+        $fake_db = __NAMESPACE__.'\FakeSSDB';
         $db_plug = 'fake_ssdb'; 
         \PMVC\option('set','GUID_DB',$db_plug);
         \PMVC\unplug($this->plug);
@@ -35,10 +37,6 @@ class GuidTest extends PHPUnit_Framework_TestCase
     }
 }
 
-class FakeSSDB extends \PMVC\PlugIn
-{
-    function getdb(){return $this;}
-}
 
 
 
