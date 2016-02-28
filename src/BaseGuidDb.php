@@ -25,7 +25,7 @@ class BaseGuidDb implements \ArrayAccess
      */
     public function offsetExists($k)
     {
-        return $this->db->offsetExists($k, $v);
+        return $this->db->offsetExists($k);
     }
 
     /**

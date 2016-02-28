@@ -13,14 +13,14 @@ class BigIntGuid
         return $rand.$number;
     }
 
-    public function gen($guidLen=null,$existsCallback=null)
+    public function gen($guidLen=null,callable $existsCallback=null)
     {
         if (empty($guidLen)) {
             $guidLen = 19;
         }
         $newid = $this->_gen($guidLen);
         if (is_callable($existsCallback)) {
-           while (call_user_func($existsCallback,$newid))
+           while ($existsCallback($newid))
            { 
                 $newid = $this->_gen($guidLen);
            }
