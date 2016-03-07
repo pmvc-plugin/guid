@@ -1,8 +1,12 @@
 <?php
 namespace IdOfThings;
 
-trait GetDb
+abstract class GetDb extends \PMVC\PlugIn
 {
+
+    abstract function getNameSpace();
+    abstract function getBaseDb();
+
     protected $dbs;
     /**
      * @param int    $id  group guid
@@ -14,7 +18,8 @@ trait GetDb
             $path = $this->getDir().'/src/dbs/'.$key.'.php';
             if (\PMVC\realpath($path)) {
                 \PMVC\l($path);
-                $class = __NAMESPACE__.'\\'.$key;
+                $nameSpace = $this->getNameSpace();
+                $class = $nameSpace.'\\dbs\\'.$key;
                 if(class_exists($class)){
                     $this->dbs[$id] = new $class(
                         $this['this'],
@@ -25,7 +30,8 @@ trait GetDb
                     return false;
                 }
             } else {
-                $this->dbs[$id] = new $this['baseDb'](
+                $baseDb = $this->getBaseDb();
+                $this->dbs[$id] = new $baseDb(
                     $this['this'],
                     $id
                 );

@@ -28,7 +28,7 @@ class guid extends \PMVC\PlugIn
 
     private function _getPublicDb($key)
     {
-        $class =  __NAMESPACE__.'\dbs\\'.$key;
+        $class =  __NAMESPACE__.'\\dbs\\'.$key;
         if (!class_exists($class)) {
             return !trigger_error('guid db not found ['.$class.']');
         }
