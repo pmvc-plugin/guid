@@ -17,6 +17,14 @@ class BaseGuidDb implements \ArrayAccess
     }
 
     /**
+     * Really name in database table name
+     */
+     public function getTable()
+     {
+        return $this->groupDb;
+     }
+
+    /**
      * ContainsKey
      *
      * @param string $k key 
@@ -37,8 +45,8 @@ class BaseGuidDb implements \ArrayAccess
      */
     public function &offsetGet($k=null)
     {
-        $results =& $this->db->offsetGet($k);
-        return $results;
+        $result =& $this->db->offsetGet($k);
+        return $result;
     }
 
 
