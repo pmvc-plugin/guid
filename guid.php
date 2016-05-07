@@ -11,7 +11,7 @@ class guid extends \PMVC\PlugIn
     {
         $guid = new BigIntGuid(); 
         $this->setDefaultAlias($guid);
-        $this['GUID_DB'] = \PMVC\plug('get')->get('GUID_DB');
+        $this['GUID_DB'] = \PMVC\getOption('GUID_DB');
         $this['private_db'] = 'guid_private_db';
     }
 
