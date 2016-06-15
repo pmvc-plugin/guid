@@ -30,11 +30,19 @@ class guid extends \PMVC\PlugIn
     {
         $class =  __NAMESPACE__.'\\dbs\\'.$key;
         if (!class_exists($class)) {
-            return !trigger_error('guid db not found ['.$class.']');
+            return !trigger_error(
+                '[GUID] Db not found ['.$class.']',
+                E_USER_WARNING
+            );
         }
-        $this->dbs[$key] = new $class(
-            $this->getStorage()
-        );
+        $storage = $this->getStorage();
+        if (empty($storage)) {
+            return !trigger_error(
+                '[GUID] Get storage failed.',
+                E_USER_WARNING
+            );
+        }
+        $this->dbs[$key] = new $class($storage);
         return true;
     }
 
@@ -51,7 +59,10 @@ class guid extends \PMVC\PlugIn
     public function getStorage()
     {
         if (empty($this['GUID_DB'])) {
-            trigger_error('Need putenv "GUID_DB"');
+            return !trigger_error(
+                'Global setting not setted. "GUID_DB"',
+                E_USER_WARNING
+            );
         }
         return \PMVC\plug($this['GUID_DB']);
     }
