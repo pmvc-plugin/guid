@@ -1,7 +1,7 @@
 <?php
 namespace IdOfThings;
 
-class BaseGuidTempDb implements BaseGuidDb
+class BaseGuidTempDb extends BaseGuidDb
 {
     public function __construct($db)
     {
