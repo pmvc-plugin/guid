@@ -26,6 +26,14 @@ class BaseGuidDb implements ArrayAccess
         return $this->groupDb;
      }
 
+     /**
+      * Get composite key
+      */
+      public function getCompositeKey($id)
+      {
+        return $this->getTable().'_'.$id;
+      }
+
     /**
      * ContainsKey
      *
