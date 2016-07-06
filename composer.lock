@@ -4,141 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5509fa0067aa5240cd88a6b62cf18a72",
+    "hash": "3796a14f2fb9c7f92a51f3f9aabba9b1",
+    "content-hash": "4e92f75d380aacbc964bb8c80d99946d",
     "packages": [
-        {
-            "name": "josegonzalez/dotenv",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/josegonzalez/php-dotenv.git",
-                "reference": "e25e54a87180a46c473fd5a1bb5d8c2fa2699a19"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/josegonzalez/php-dotenv/zipball/e25e54a87180a46c473fd5a1bb5d8c2fa2699a19",
-                "reference": "e25e54a87180a46c473fd5a1bb5d8c2fa2699a19",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "josegonzalez\\Dotenv": [
-                        "src",
-                        "tests"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jose Diaz-Gonzalez",
-                    "email": "dotenv@josegonzalez.com",
-                    "homepage": "http://josediazgonzalez.com",
-                    "role": "Maintainer"
-                }
-            ],
-            "description": "dotenv file parsing for PHP",
-            "homepage": "https://github.com/josegonzalez/php-dotenv",
-            "keywords": [
-                "configuration",
-                "dotenv",
-                "php"
-            ],
-            "time": "2015-06-05 06:04:53"
-        },
-        {
-            "name": "pmvc-plugin/dotenv",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pmvc-plugin/dotenv.git",
-                "reference": "e0a3b3e3dd0bf91203bc304252efdb465d0ad7ba"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pmvc-plugin/dotenv/zipball/e0a3b3e3dd0bf91203bc304252efdb465d0ad7ba",
-                "reference": "e0a3b3e3dd0bf91203bc304252efdb465d0ad7ba",
-                "shasum": ""
-            },
-            "require": {
-                "josegonzalez/dotenv": "*",
-                "pmvc/pmvc": "*"
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Hill",
-                    "email": "hill@kimo.com"
-                }
-            ],
-            "description": "PMVC Plugin For phpdotenv",
-            "homepage": "https://github.com/pmvc-plugin/dotenv",
-            "keywords": [
-                "dotenv",
-                "plug-in",
-                "pmvc"
-            ],
-            "time": "2015-07-05 19:47:41"
-        },
-        {
-            "name": "pmvc-plugin/get",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pmvc-plugin/get.git",
-                "reference": "75cd7172b7390a014d720ee1bde21f79c9c83b24"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pmvc-plugin/get/zipball/75cd7172b7390a014d720ee1bde21f79c9c83b24",
-                "reference": "75cd7172b7390a014d720ee1bde21f79c9c83b24",
-                "shasum": ""
-            },
-            "require": {
-                "pmvc/pmvc": "*"
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Hill",
-                    "email": "hill@kimo.com"
-                }
-            ],
-            "description": "smart get function, help you get configure from different storage simply. ",
-            "keywords": [
-                "get",
-                "plug-in",
-                "pmvc"
-            ],
-            "time": "2015-07-29 04:42:18"
-        },
         {
             "name": "pmvc/pmvc",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmvc/pmvc.git",
-                "reference": "f87e88a58eecc350409bbc9d9b676c4e33c8ab0c"
+                "reference": "16a9f4784e433851998ea7036cf00ba0fa52c393"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmvc/pmvc/zipball/f87e88a58eecc350409bbc9d9b676c4e33c8ab0c",
-                "reference": "f87e88a58eecc350409bbc9d9b676c4e33c8ab0c",
+                "url": "https://api.github.com/repos/pmvc/pmvc/zipball/16a9f4784e433851998ea7036cf00ba0fa52c393",
+                "reference": "16a9f4784e433851998ea7036cf00ba0fa52c393",
                 "shasum": ""
             },
             "require": {
@@ -163,8 +43,7 @@
                     "email": "hill@kimo.com"
                 }
             ],
-            "description": "The New PHP5.6 MVC framework, conatain double engine and double framework",
-            "homepage": "https://github.com/pmvc/pmvc",
+            "description": "Pure plugin framework (PMVC7), use anything you like. No mvc, http inside.",
             "keywords": [
                 "framework",
                 "mvc",
@@ -173,7 +52,7 @@
                 "plug-in",
                 "pmvc"
             ],
-            "time": "2015-07-29 05:51:13"
+            "time": "2016-06-08 17:04:39"
         }
     ],
     "packages-dev": [],

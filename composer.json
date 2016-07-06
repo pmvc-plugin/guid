@@ -11,8 +11,7 @@
         }
     ],
     "require": {
-        "pmvc/pmvc": "*",
-        "pmvc-plugin/dotenv": "*"
+        "pmvc/pmvc": "*"
     },
     "autoload": {
         "psr-4": {

@@ -1,7 +1,9 @@
 <?php
 namespace IdOfThings;
 
-class BaseGuidDb implements \ArrayAccess
+use ArrayAccess;
+
+class BaseGuidDb implements ArrayAccess
 {
 
     protected $groupKey;
