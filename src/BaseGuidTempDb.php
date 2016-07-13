@@ -5,8 +5,10 @@ class BaseGuidTempDb extends BaseGuidDb
 {
     public function __construct($db)
     {
-        $this->groupDb = \PMVC\plug('guid')
-             ->getDb('GlobalKey')[$this->groupKey];
-        $this->db = $db->getDb($this->groupDb, 'tmp');
+        if(!empty($this->groupKey)){
+            $this->groupTable = \PMVC\plug('guid')
+                 ->getDb('GlobalKey')[$this->groupKey];
+        }
+        $this->db = $db->getDb($this->groupTable, 'tmp');
     }
 }

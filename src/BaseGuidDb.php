@@ -7,15 +7,15 @@ class BaseGuidDb implements ArrayAccess
 {
 
     protected $groupKey;
-    protected $groupDb;
+    protected $groupTable;
     public $db;
 
     public function __construct($db)
     {
         if(!empty($this->groupKey)){
-            $this->groupDb = \PMVC\plug('guid')->getDb('GlobalKey')[$this->groupKey];
+            $this->groupTable = \PMVC\plug('guid')->getDb('GlobalKey')[$this->groupKey];
         }
-        $this->db = $db->getDb($this->groupDb,$this->groupKey);
+        $this->db = $db->getDb($this->groupTable, $this->groupKey);
     }
 
     /**
@@ -23,7 +23,7 @@ class BaseGuidDb implements ArrayAccess
      */
      public function getTable()
      {
-        return $this->groupDb;
+        return $this->groupTable;
      }
 
      /**

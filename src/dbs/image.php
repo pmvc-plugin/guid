@@ -47,7 +47,7 @@ class image extends \IdOfThings\BaseGuidDb
         uksort($data, 'strnatcmp');
         $return->json = json_encode($data);
         $return->mi5 = md5($return->json);
-        $return->id = $this->groupDb.'_'.$return->mi5;
+        $return->id = $this->getCompositeKey($return->mi5);
         return $return;
     }
 
