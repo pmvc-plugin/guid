@@ -8,13 +8,19 @@ abstract class GetDb extends \PMVC\PlugIn
     abstract function getBaseDb();
 
     protected $dbs;
+
+    private $_connected = false;
+
     /**
      * @param int    $id  group guid
      * @param string $key group key
      */
     public function getDb($id,$key=null)
     {
-        if(empty($this->dbs[$id])){
+        if (!$this->_connected) {
+            return !trigger_error('Server is not connected.');
+        }
+        if (empty($this->dbs[$id])) {
             $path = $this->getDir().'/src/dbs/'.$key.'.php';
             if (\PMVC\realpath($path)) {
                 \PMVC\l($path);
@@ -26,8 +32,7 @@ abstract class GetDb extends \PMVC\PlugIn
                         $id 
                     );
                 } else {
-                    trigger_error($class .' not exists.');
-                    return false;
+                    return !trigger_error($class .' not exists.');
                 }
             } else {
                 $baseDb = $this->getBaseDb();
@@ -38,5 +43,13 @@ abstract class GetDb extends \PMVC\PlugIn
             }
         }
         return $this->dbs[$id];
+    }
+
+    public function setConnected($bool = null)
+    {
+        if (!is_null($bool)) {
+            $this->_connected = $bool;
+        }
+        return $this->_connected;
     }
 }
