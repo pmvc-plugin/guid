@@ -4,7 +4,7 @@ class image extends \IdOfThings\BaseGuidDb
 {
 
     protected $groupKey='image';
-    private $cdn_static_version='2015052407';
+    private $_cdn_static_version='2016080301';
 
     /**
      * get one
@@ -41,13 +41,13 @@ class image extends \IdOfThings\BaseGuidDb
         return $hash->id;
     }
 
-    function getHash($data){
-        $data[]=$this->cdn_static_version;
+    function getHash(array $data){
+        $data[]=$this->_cdn_static_version;
         $return = new \stdClass();
         uksort($data, 'strnatcmp');
         $return->json = json_encode($data);
-        $return->mi5 = md5($return->json);
-        $return->id = $this->getCompositeKey($return->mi5);
+        $return->md5 = md5($return->json);
+        $return->id = $this->getCompositeKey($return->md5);
         return $return;
     }
 
