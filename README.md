@@ -10,6 +10,8 @@ Id of things
 ## GetDb Sample
    * Algolia
       * https://github.com/pmvc-plugin/algolia/blob/master/algolia.php
+   * Ssdb
+      * https://github.com/pmvc-plugin/ssdb/blob/master/ssdb.php
 
 
 ## Install with Composer
