@@ -19,8 +19,14 @@ class guid extends \PMVC\PlugIn
     {
         if (\PMVC\exists($this['private_db'],'plugin')) {
             $private = \PMVC\plug($this['private_db']); 
-            $this->dbs[$key] = $private->getDb($key);
-            return true;
+            $db = $private->getDb($key, $key);
+            if ($db) {
+                $this->dbs[$key] = $db;
+
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
