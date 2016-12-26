@@ -7,6 +7,11 @@
 Id of things  
 ===============
 
+## GetDb Sample
+   * Algolia
+      * https://github.com/pmvc-plugin/algolia/blob/master/algolia.php
+
+
 ## Install with Composer
 ### 1. Download composer
    * mkdir test_folder
