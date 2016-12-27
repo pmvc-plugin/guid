@@ -20,7 +20,7 @@ abstract class GetDb extends \PMVC\PlugIn
         if (!$this->_connected) {
             return !trigger_error('Server is not connected.');
         }
-        if (empty($this->dbs[$id]) && false !== $this->dbs[$id]) {
+        if (!isset($this->dbs[$id])) { // $this->dbs[$id] possible equal false, so can't use empty.
             $path = $this->getDir().'src/dbs/'.$key.'.php';
             if (\PMVC\realpath($path)) {
                 \PMVC\l($path);
