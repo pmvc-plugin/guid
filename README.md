@@ -13,6 +13,14 @@ Id of things
    * Ssdb
       * https://github.com/pmvc-plugin/ssdb/blob/master/ssdb.php
 
+## Global Table
+   * GlobalGuid
+       * format: guid->key
+       * https://github.com/pmvc-plugin/guid/blob/master/src/dbs/GlobalGuid.php
+   * GlobalKey
+       * format: key->guid
+       * https://github.com/pmvc-plugin/guid/blob/master/src/dbs/GlobalKey.php
+
 
 ## Install with Composer
 ### 1. Download composer
