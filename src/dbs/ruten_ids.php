@@ -1,6 +1,9 @@
 <?php
 namespace IdOfThings\dbs;
-class ruten_ids extends \IdOfThings\BaseGuidDb
+
+use IdOfThings\BaseGuidDb;
+
+class ruten_ids extends BaseGuidDb
 {
     protected $groupKey='ruten_ids';
 }
