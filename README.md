@@ -21,6 +21,16 @@ Id of things
        * format: key->guid
        * https://github.com/pmvc-plugin/guid/blob/master/src/dbs/GlobalKey.php
 
+### Get Guid
+```
+\PMVC\plug('guid')->getDb('manager')->getGuid($key);
+```
+
+### Get Key
+```
+\PMVC\plug('guid')->getDb('manager')->getKey($guid);
+```
+
 
 ## Install with Composer
 ### 1. Download composer
