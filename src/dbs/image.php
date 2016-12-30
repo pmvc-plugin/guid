@@ -4,7 +4,7 @@ class image extends \IdOfThings\BaseGuidDb
 {
 
     protected $groupKey='image';
-    private $_cdn_static_version='2016123001';
+    private $_cdn_static_version='2016123101';
 
     /**
      * get one
@@ -29,6 +29,7 @@ class image extends \IdOfThings\BaseGuidDb
         if (!empty($url)) {
             $data['url'] = $url;
         }
+        $data['url'] = (string)$data['url'];
         $hash = $this->getHash($data);
         $cache = 86400;
         if( !empty($data['cache']) && $data['cache']>$cache){
@@ -46,8 +47,8 @@ class image extends \IdOfThings\BaseGuidDb
         $return = new \stdClass();
         uksort($data, 'strnatcmp');
         $return->json = json_encode($data);
-        $return->md5 = md5($return->json);
-        $return->id = $this->getCompositeKey($return->md5);
+        $return->hash = sha1($return->json);
+        $return->id = $this->getCompositeKey($return->hash);
         return $return;
     }
 

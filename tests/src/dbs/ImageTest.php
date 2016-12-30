@@ -8,6 +8,6 @@ class ImageTest extends BaseDbTest
         $guid = \PMVC\plug(TestPlug);
         $imageDb = $guid->getDb('image');
         $hash = $imageDb->getHash([]);
-        $this->assertEquals(md5($hash->json),$hash->md5);
+        $this->assertEquals(sha1($hash->json),$hash->hash);
     }
 }
