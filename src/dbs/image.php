@@ -4,7 +4,7 @@ class image extends \IdOfThings\BaseGuidDb
 {
 
     protected $groupKey='image';
-    private $_cdn_static_version='2016080301';
+    private $_cdn_static_version='2016123001';
 
     /**
      * get one
