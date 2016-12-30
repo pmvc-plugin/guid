@@ -6,6 +6,7 @@ ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\guid';
 class guid extends \PMVC\PlugIn
 {
     private $dbs;
+    private $_privateDbPlugin = null;
 
     public function init()
     {
@@ -17,8 +18,8 @@ class guid extends \PMVC\PlugIn
 
     private function _getPrivateDb($key)
     {
-        if (\PMVC\exists($this['private_db'],'plugin')) {
-            $private = \PMVC\plug($this['private_db']); 
+        $private = $this->getPrivateDbPlugin();
+        if ($private) {
             $db = $private->getDb($key, $key);
             if ($db) {
                 $this->dbs[$key] = $db;
@@ -30,6 +31,18 @@ class guid extends \PMVC\PlugIn
         } else {
             return false;
         }
+    }
+
+    private function getPrivateDbPlugin()
+    {
+        if (is_null($this->_privateDbPlugin)) {
+           if (\PMVC\exists($this['private_db'],'plug')) {
+                $this->_privateDbPlugin = \PMVC\plug($this['private_db']);
+           } else {
+                $this->_privateDbPlugin = false; 
+           }
+        }
+        return $this->_privateDbPlugin;
     }
 
     private function _getPublicDb($key)
