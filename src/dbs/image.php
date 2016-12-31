@@ -39,7 +39,7 @@ class image extends \IdOfThings\BaseGuidDb
         $this->db->cache = $cache;
         $this->db[$hash->id] = $hash->json;
         $this->db->cache = null;
-        return $hash->id;
+        return $hash->hash;
     }
 
     function getHash(array $data){
