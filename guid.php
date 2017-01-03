@@ -1,6 +1,8 @@
 <?php
 namespace IdOfThings;
 
+use DomainException;
+
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\guid';
 
 class guid extends \PMVC\PlugIn
@@ -78,9 +80,8 @@ class guid extends \PMVC\PlugIn
     public function getStorage()
     {
         if (empty($this['GUID_DB'])) {
-            return !trigger_error(
-                'Global setting not setted. "GUID_DB"',
-                E_USER_WARNING
+            throw new DomainException (
+                'Global setting not setted. "GUID_DB"'
             );
         }
         return \PMVC\plug($this['GUID_DB']);
