@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3796a14f2fb9c7f92a51f3f9aabba9b1",
     "content-hash": "4e92f75d380aacbc964bb8c80d99946d",
     "packages": [
         {
@@ -13,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmvc/pmvc.git",
-                "reference": "16a9f4784e433851998ea7036cf00ba0fa52c393"
+                "reference": "92a7acb51a409b02b45316dafe926b5d963b0c94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmvc/pmvc/zipball/16a9f4784e433851998ea7036cf00ba0fa52c393",
-                "reference": "16a9f4784e433851998ea7036cf00ba0fa52c393",
+                "url": "https://api.github.com/repos/pmvc/pmvc/zipball/92a7acb51a409b02b45316dafe926b5d963b0c94",
+                "reference": "92a7acb51a409b02b45316dafe926b5d963b0c94",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +51,7 @@
                 "plug-in",
                 "pmvc"
             ],
-            "time": "2016-06-08 17:04:39"
+            "time": "2017-01-04 07:50:41"
         }
     ],
     "packages-dev": [],

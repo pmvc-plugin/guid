@@ -29,10 +29,26 @@ class BaseGuidDb implements ArrayAccess
      /**
       * Get composite key
       */
-      public function getCompositeKey($id)
-      {
-        return $this->getTable().'_'.$id;
-      }
+     public function getCompositeKey($id)
+     {
+         return $this->getTable().'_'.$id;
+     }
+
+     /**
+      * Insert
+      */
+     public function insert($k, $v)
+     {
+        if ($this->offsetExists($k)) {
+            return !trigger_error(
+                '[Insert Fail] Key already exists.'.
+                ' Table: '. $this->getTable().
+                ' Key: '.$k,
+                E_USER_WARNING
+            );
+        }
+        return $this->offsetSet($k, $v);
+     }
 
     /**
      * ContainsKey
