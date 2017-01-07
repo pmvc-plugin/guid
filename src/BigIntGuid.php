@@ -13,14 +13,18 @@ class BigIntGuid
         return $rand.$number;
     }
 
-    public function gen($guidLen=null,callable $existsCallback=null)
+    /**
+     * @param int      $guidLen        Guid length
+     * @param callable $existsCallback Check if id already exists in db
+     */
+    public function gen($guidLen=null, callable $existsCallback=null)
     {
         if (empty($guidLen)) {
             $guidLen = 19;
         }
         $newid = $this->_gen($guidLen);
         if (is_callable($existsCallback)) {
-           while ($existsCallback($newid))
+           while ( call_user_func($existsCallback, $newid) )
            { 
                 $newid = $this->_gen($guidLen);
            }
