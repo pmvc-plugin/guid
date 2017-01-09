@@ -7,7 +7,9 @@ use IdOfThings\BaseGuidDb;
 /**
  * Key: pageview_id 
  * Value: [
- *  view: lucency_view_guid
+ *  view: [
+ *      ...lucency_view_guid
+ *  ],
  *  action: [
  *    ...actions_guid
  *  ]
