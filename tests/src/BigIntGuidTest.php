@@ -23,4 +23,20 @@ class BigIntGuidTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $i);
         $this->assertEquals(2, count($ids));
     }
+
+    function testCallbackPassedByReference()
+    {
+        $p = \PMVC\plug($this->_plug);
+        $expected = 'xxx';
+        $actual = $p->gen(null, function ($new) use ($expected){
+            $new = $expected;
+            return false;
+        });
+        $this->assertNotEquals($expected, $actual);
+        $actual = $p->gen(null, function (&$new) use ($expected){
+            $new = $expected;
+            return false;
+        });
+        $this->assertEquals($expected, $actual);
+    }
 }

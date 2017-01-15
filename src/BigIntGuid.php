@@ -24,7 +24,7 @@ class BigIntGuid
         }
         $newid = $this->_gen($guidLen);
         if (is_callable($existsCallback)) {
-           while ( call_user_func($existsCallback, $newid) )
+           while ( call_user_func_array($existsCallback, [&$newid]) )
            { 
                 $newid = $this->_gen($guidLen);
            }
