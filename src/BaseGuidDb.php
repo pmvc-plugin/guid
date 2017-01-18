@@ -16,6 +16,9 @@ class BaseGuidDb implements ArrayAccess
             $this->groupTable = \PMVC\plug('guid')->getDb('GlobalKey')[$this->groupKey];
         }
         $this->db = $db->getDb($this->groupTable, $this->groupKey);
+        if (empty($this->db)) {
+            return !trigger_error('Init guid db failed.');
+        }
     }
 
     /**
