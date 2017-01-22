@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pmvc/pmvc.git",
-                "reference": "92a7acb51a409b02b45316dafe926b5d963b0c94"
+                "reference": "6512f350eb0930505a1911946b7ed7f3586eaa5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pmvc/pmvc/zipball/92a7acb51a409b02b45316dafe926b5d963b0c94",
-                "reference": "92a7acb51a409b02b45316dafe926b5d963b0c94",
+                "url": "https://api.github.com/repos/pmvc/pmvc/zipball/6512f350eb0930505a1911946b7ed7f3586eaa5c",
+                "reference": "6512f350eb0930505a1911946b7ed7f3586eaa5c",
                 "shasum": ""
             },
             "require": {
@@ -51,7 +51,7 @@
                 "plug-in",
                 "pmvc"
             ],
-            "time": "2017-01-04 07:50:41"
+            "time": "2017-01-22 11:22:39"
         }
     ],
     "packages-dev": [],

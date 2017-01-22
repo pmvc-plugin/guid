@@ -1,16 +1,16 @@
 <?php
 namespace IdOfThings;
 
-use IdOfThings\dbs\LucencyViewExists;
+use IdOfThings\dbs\LucencyActionExists;
 
-class LucencyViewTest extends BaseDbTest
+class LucencyActionTest extends BaseDbTest
 {
     function testExists()
     {
         $guid = \PMVC\plug(TestPlug);
-        $db = $guid->getDb('LucencyView');
+        $db = $guid->getDb('LucencyAction');
         $fakeKey = 'fakeKey';
-        $exists = new LucencyViewExists(
+        $exists = new LucencyActionExists(
             $fakeKey,
             $db
         );
@@ -23,7 +23,7 @@ class LucencyViewTest extends BaseDbTest
     function testGetNewKey()
     {
         $guid = \PMVC\plug(TestPlug);
-        $db = $guid->getDb('LucencyView');
+        $db = $guid->getDb('LucencyAction');
         $now = time();
         $getNewGuid = null;
         $site = 'fakeSite';
