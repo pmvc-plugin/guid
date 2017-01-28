@@ -22,7 +22,7 @@ class LucencyView  extends BaseGuidDb
             $timestamp = time();
         }
 
-        $key = date('Y_m_d_H', $timestamp).'_'.$site.'_';
+        $key = $site.'_'.date('Y_m_d_H', $timestamp).'_';
         if (is_null($callback)) {
             $callback = new LucencyViewExists(
                 $key,

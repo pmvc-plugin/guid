@@ -30,7 +30,7 @@ class LucencyActionTest extends BaseDbTest
         $actual = $db->getNewKey($site, function($new) use (&$getNewGuid) {
             $getNewGuid = $new;
         }, $now);
-        $expected = date('Y_m_d_H', $now).'_'.$site.'_'.$getNewGuid;
+        $expected = $site.'_'.date('Y_m_d_H', $now).'_'.$getNewGuid;
         $this->assertEquals($expected, $actual);
     }
 }
