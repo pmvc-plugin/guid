@@ -7,22 +7,6 @@ class image extends \IdOfThings\BaseGuidDb
     private $_cdn_static_version='2016123101';
 
     /**
-     * get one
-     */
-    public function &offsetGet($id=null)
-    {
-        return $this->db->offsetGet($id);
-    }
-
-    /**
-     * Delete
-     */
-    public function offsetUnset($id=null)
-    {
-        unset($this->db[$id]);
-    }
-
-    /**
      * add 
      */
     function addImg($url,$data=array()){
