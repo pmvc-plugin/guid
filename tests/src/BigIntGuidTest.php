@@ -39,4 +39,21 @@ class BigIntGuidTest extends PHPUnit_Framework_TestCase
         });
         $this->assertEquals($expected, $actual);
     }
+
+    function testGenId()
+    {
+        $id = \PMVC\plug($this->_plug)->gen();
+        $this->assertTrue(is_numeric($id),"id is not int: ".$id);
+        $this->assertTrue(19===strlen($id),"id length no 19: ".$id);
+    }
+
+    function testVerify()
+    {
+        $timestamp = mktime(1, 2, 3, 4, 5, 2017);
+        $p = \PMVC\plug($this->_plug);
+        $id = $p->gen(null, null, $timestamp);
+        $actual = $p->verify($id);
+        $this->assertEquals('20170405010203', $actual);
+    }
+
 }

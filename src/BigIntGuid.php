@@ -3,6 +3,20 @@ namespace IdOfThings;
 
 class BigIntGuid
 {
+    private $_start=2017;
+
+    public function setStart($i)
+    {
+        $this->_start = $i;
+    }
+
+    public function getStart($timestamp)
+    {
+        return 1000+
+            date('Y', $timestamp)-
+            $this->_start;
+    }
+
     public function messOdd($number, $rand)
     {
         return $number.$rand;
@@ -17,25 +31,25 @@ class BigIntGuid
      * @param int      $guidLen        Guid length
      * @param callable $existsCallback Check if id already exists in db
      */
-    public function gen($guidLen=null, callable $existsCallback=null)
+    public function gen($guidLen=null, callable $existsCallback=null, $timestamp=null)
     {
         if (empty($guidLen)) {
             $guidLen = 19;
         }
-        $newid = $this->_gen($guidLen);
+        $newid = $this->_gen($guidLen, $timestamp);
         if (is_callable($existsCallback)) {
            while ( call_user_func_array($existsCallback, [&$newid]) )
            { 
-                $newid = $this->_gen($guidLen);
+                $newid = $this->_gen($guidLen, $timestamp);
            }
         }
         return $newid;
     }
 
-    private function _gen($guidLen)
+    private function _gen($guidLen, $timestamp)
     {
-        $date = explode(' ', date('Y m d H i s'));
-        $d_y=$date[0];
+        $date = explode(' ', date('Y m d H i s', $timestamp));
+        $d_y=$this->getStart($timestamp);
         $d_mon = $date[1];
         $d_day = $date[2];
         $d_h = $date[3];
@@ -46,7 +60,7 @@ class BigIntGuid
         $totalSec =sprintf('%08d', $totalSec);
         $totalSecLen=strlen($totalSec);
 
-        $randlen = $guidLen -1 -8 -4;
+        $randlen = $guidLen -1 -8 -strlen($d_y);
         $rand = '';
         for ($i=0;$i<$randlen;$i++) {
             $rand.=mt_rand(0, 9);
@@ -179,7 +193,8 @@ class BigIntGuid
         $d_string = $year.$date['mon'].$date['day'].$date['hour'].$date['min'].$date['sec'];
         $verifyMd5 = $this->getVerifyNo($d_string, $rand);
         if ($verifyMd5==$lastMd5) {
-            return $d_string;
+            return ($year - 1000 + $this->_start).
+                substr($d_string, 4);
         } else {
             return false;
         }

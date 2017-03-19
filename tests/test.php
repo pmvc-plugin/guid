@@ -16,14 +16,6 @@ class GuidTest extends BaseDbTest
         $this->assertContains($this->plug,$output);
     }
 
-
-    function testGenId()
-    {
-        $id = PMVC\plug($this->plug)->gen();
-        $this->assertTrue(is_numeric($id),"id is not int: ".$id);
-        $this->assertTrue(19===strlen($id),"id length no 19: ".$id);
-    }
-
     function testGetDb()
     {
         $fake_db = __NAMESPACE__.'\FakeSSDB';
