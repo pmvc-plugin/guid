@@ -36,6 +36,9 @@ class BigIntGuid
         if (empty($guidLen)) {
             $guidLen = 19;
         }
+        if (empty($timestamp)) {
+            $timestamp = time();
+        }
         $newid = $this->_gen($guidLen, $timestamp);
         if (is_callable($existsCallback)) {
            while ( call_user_func_array($existsCallback, [&$newid]) )
