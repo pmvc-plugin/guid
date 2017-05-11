@@ -1,23 +1,31 @@
 <?php
-namespace IdOfThings\dbs;
+namespace IdOfThings;
 
-class manager extends \IdOfThings\BaseGuidDb
+${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\manager';
+
+class manager
 {
     private $_key;
     private $_guid;
 
+    public function __invoke()
+    {
+        return $this;
+    }
+
     public function addNewKey($key)
     {
-        $plugGuid = \PMVC\plug('guid'); 
-        $gloKey = $plugGuid->getDb('GlobalKey');
-        $gloGuid= $plugGuid->getDb('GlobalGuid');
+        $gloKey = $this->getKeyDb();
+        $gloGuid= $this->getGuidDb();
         if (isset($gloKey[$key])) {
             return -1;
         }
-        $newGuid = $plugGuid->gen();
-        while (isset($gloGuid[$newGuid])) {
-            $newGuid = $plugGuid->gen();
-        }
+        $newGuid = $this->caller->gen(
+            null,
+            function ($newGuid) use ($gloGuid) {
+                return isset($gloGuid[$newGuid]);
+            }
+        );
         $gloGuid[$newGuid] = $key;
         $gloKey[$key] = $newGuid;
         return $newGuid;
@@ -25,9 +33,8 @@ class manager extends \IdOfThings\BaseGuidDb
 
     public function removeKey($guid)
     {
-        $plugGuid = \PMVC\plug('guid'); 
-        $gloKey = $plugGuid->getDb('GlobalKey');
-        $gloGuid= $plugGuid->getDb('GlobalGuid');
+        $gloKey = $this->getKeyDb();
+        $gloGuid= $this->getGuidDb();
         if(isset($gloGuid[$guid])){
             $key = $gloGuid[$guid];
             unset($gloGuid[$guid]);
@@ -41,9 +48,8 @@ class manager extends \IdOfThings\BaseGuidDb
         if (!strlen($newKey)) {
             return false;
         } else {
-            $plugGuid = \PMVC\plug('guid'); 
-            $gloKey = $plugGuid->getDb('GlobalKey');
-            $gloGuid= $plugGuid->getDb('GlobalGuid');
+            $gloKey = $this->getKeyDb();
+            $gloGuid= $this->getGuidDb();
             $oldKey = $gloGuid[$guid];
             $gloGuid[$guid] = $newKey;
             unset($gloKey[$oldKey]);
@@ -76,7 +82,8 @@ class manager extends \IdOfThings\BaseGuidDb
     public function getKeyDb()
     {
         if (empty($this->_key)) {
-            $this->_key = \PMVC\plug('guid')->
+            $this->_key = $this->
+                caller->
                 getDb('GlobalKey');
         }
         return $this->_key;
@@ -85,7 +92,8 @@ class manager extends \IdOfThings\BaseGuidDb
     public function getGuidDb()
     {
         if (empty($this->_guid)) {
-            $this->_guid = \PMVC\plug('guid')->
+            $this->_guid = $this->
+                caller->
                 getDb('GlobalGuid');
         }
         return $this->_guid;

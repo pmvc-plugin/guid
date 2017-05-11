@@ -23,12 +23,12 @@ Id of things
 
 ### Get Guid
 ```
-\PMVC\plug('guid')->getDb('manager')->getGuid($key);
+\PMVC\plug('guid')->manager()->getGuid($key);
 ```
 
 ### Get Key
 ```
-\PMVC\plug('guid')->getDb('manager')->getKey($guid);
+\PMVC\plug('guid')->manager()->getKey($guid);
 ```
 
 

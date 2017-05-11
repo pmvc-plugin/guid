@@ -19,7 +19,7 @@ class GuidTest extends BaseDbTest
     function testGetDb()
     {
         $fake_db = __NAMESPACE__.'\FakeSSDB';
-        $db = PMVC\plug($this->plug)->getDb('manager');
+        $db = PMVC\plug($this->plug)->getDb('GlobalGuid');
         $this->assertEquals($fake_db,get_class($db->db));
     }
 
