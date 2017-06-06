@@ -31,7 +31,10 @@ class GuidTest extends BaseDbTest
         $files = glob(__DIR__.'/../src/dbs/*.php');
         foreach ($files as $f) {
             $r = exec('php -l '.$f);
-            $this->assertStringStartsWith('No syntax errors',$r);
+            if (is_null($r)) {
+                $r = 'No syntax errors';
+            }
+            $this->assertStringStartsWith('No syntax errors', (string)$r);
         }
     }
 }
