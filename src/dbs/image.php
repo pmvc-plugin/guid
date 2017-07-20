@@ -1,6 +1,10 @@
 <?php
+
 namespace IdOfThings\dbs;
-class image extends \IdOfThings\BaseGuidDb
+
+use IdOfThings\BaseGuidDb;
+
+class image extends BaseGuidDb
 {
 
     protected $groupKey='image';
@@ -20,9 +24,8 @@ class image extends \IdOfThings\BaseGuidDb
             $cache = $data['cache'];
         }
         // store
-        $this->db->cache = $cache;
         $this->db[$hash->id] = $hash->json;
-        $this->db->cache = null;
+        $this->setExpire($hash->id, $cache);
         return $hash->hash;
     }
 
