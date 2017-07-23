@@ -10,12 +10,17 @@ class guid extends \PMVC\PlugIn
     private $dbs;
     private $_privateDbPlugin = null;
 
+    /**
+     * @parameters string guidDb Default db plugin.
+     * @parameters string privateDb Private db plugin.
+     */
     public function init()
     {
         $guid = new BigIntGuid(); 
         $this->setDefaultAlias($guid);
-        $this['GUID_DB'] = \PMVC\getOption('GUID_DB');
-        $this['private_db'] = 'guid_private_db';
+        if (!isset($this['privateDb'])) {
+            $this['privateDb'] = 'guid_private_db';
+        }
     }
 
     private function _getPrivateDb($key)
@@ -38,8 +43,8 @@ class guid extends \PMVC\PlugIn
     private function getPrivateDbPlugin()
     {
         if (is_null($this->_privateDbPlugin)) {
-           if (\PMVC\exists($this['private_db'],'plug')) {
-                $this->_privateDbPlugin = \PMVC\plug($this['private_db']);
+           if (\PMVC\exists($this['privateDb'],'plug')) {
+                $this->_privateDbPlugin = \PMVC\plug($this['privateDb']);
            } else {
                 $this->_privateDbPlugin = false; 
            }
@@ -79,11 +84,11 @@ class guid extends \PMVC\PlugIn
 
     public function getStorage()
     {
-        if (empty($this['GUID_DB'])) {
+        if (empty($this['guidDb'])) {
             throw new DomainException (
-                'Global setting not setted. "GUID_DB"'
+                'Default db plugin not setted. "guidDb"'
             );
         }
-        return \PMVC\plug($this['GUID_DB']);
+        return \PMVC\plug($this['guidDb']);
     }
 }

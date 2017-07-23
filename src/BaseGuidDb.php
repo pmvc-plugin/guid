@@ -13,7 +13,9 @@ class BaseGuidDb implements ArrayAccess
     public function __construct($db)
     {
         if(!empty($this->groupKey)){
-            $this->groupTable = \PMVC\plug('guid')->getDb('GlobalKey')[$this->groupKey];
+            $this->groupTable = \PMVC\plug('guid')->
+                manager()->
+                getGuid($this->groupKey);
         }
         $this->db = $db->getDb($this->groupTable, $this->groupKey);
         if (empty($this->db)) {

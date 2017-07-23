@@ -15,68 +15,105 @@ class manager
 
     public function addNewKey($key)
     {
-        $gloKey = $this->getKeyDb();
-        $gloGuid= $this->getGuidDb();
-        if (isset($gloKey[$key])) {
-            return -1;
+        if (!strlen($key)) {
+            return !trigger_error('Key was empty.');
+        }
+        if ($this->hasKey($key)) {
+            return !trigger_error('Key already exits. ['.$key.']');
         }
         $newGuid = $this->caller->gen(
             null,
-            function ($newGuid) use ($gloGuid) {
-                return isset($gloGuid[$newGuid]);
+            function ($newGuid) {
+                return $this->hasGuid($newGuid);
             }
         );
-        $gloGuid[$newGuid] = $key;
-        $gloKey[$key] = $newGuid;
+        $gloKey = $this->getKeyDb();
+        $gloGuid= $this->getGuidDb();
+        $gloKey[$newGuid] = $key;
+        $gloGuid[$key] = $newGuid;
         return $newGuid;
     }
 
-    public function removeKey($guid)
+    public function remove($guid)
     {
-        $gloKey = $this->getKeyDb();
-        $gloGuid= $this->getGuidDb();
-        if(isset($gloGuid[$guid])){
-            $key = $gloGuid[$guid];
-            unset($gloGuid[$guid]);
-            unset($gloKey[$key]);
-        }        
-        return 0;
+        if ($this->hasGuid($guid)) {
+            $gloKey = $this->getKeyDb();
+            $gloGuid= $this->getGuidDb();
+            $key = $this->getKey($guid);
+            unset($gloGuid[$key]);
+            unset($gloKey[$guid]);
+            return 0;
+        } else {
+            return !trigger_error('Guid not exits. ['.$guid.']');
+        }
     }
 
     public function changeKey($guid, $newKey)
     {
         if (!strlen($newKey)) {
-            return false;
-        } else {
-            $gloKey = $this->getKeyDb();
-            $gloGuid= $this->getGuidDb();
-            $oldKey = $gloGuid[$guid];
-            $gloGuid[$guid] = $newKey;
-            unset($gloKey[$oldKey]);
-            $gloKey[$newKey] = $guid;
+            return !trigger_error('Key was empty.');
         }
+        if ($this->hasKey($newKey)) {
+            return !trigger_error('Key already exits. ['.$newKey.']');
+        }
+        if (!$this->hasGuid($guid)) {
+            return !trigger_error('Guid not exits. ['.$guid.']');
+        }
+        $gloKey = $this->getKeyDb();
+        $gloGuid= $this->getGuidDb();
+        $oldKey = $this->getKey($guid);
+        $gloKey[$guid] = $newKey;
+        unset($gloGuid[$oldKey]);
+        $gloGuid[$newKey] = $guid;
+        return 0;
+    }
+
+    public function hasKey($key)
+    {
+        $db = $this->getGuidDb();
+        return isset($db[$key]);
+    }
+
+    public function hasGuid($guid)
+    {
+        $db = $this->getKeyDb();
+        return isset($db[$guid]);
     }
 
     public function getGuid($key)
     {
-        return $this->getKeyDb()[$key];
+        if (!strlen($key)) {
+            return !trigger_error('Key should not empty for extract guid.');
+        }
+        return $this->getGuidDb()[$key];
     }
 
-    public function hasGuid($key)
+    public function getGuids()
     {
-        $db = $this->getKeyDb();
-        return isset($db[$key]);
+        return $this->getGuidDb()[null];
     }
 
     public function getKey($guid)
     {
-        return $this->getGuidDb()[$guid];
+        if (!strlen($guid)) {
+            return !trigger_error('Guid should not empty for extract key.');
+        }
+        return $this->getKeyDb()[$guid];
     }
 
-    public function hasKey($guid)
+    public function getKeys()
     {
-        $db = $this->getGuidDb();
-        return isset($db[$guid]);
+        return $this->getKeyDb()[null];
+    }
+
+    public function getGuidDb()
+    {
+        if (empty($this->_guid)) {
+            $this->_guid = $this->
+                caller->
+                getDb('GlobalGuid');
+        }
+        return $this->_guid;
     }
 
     public function getKeyDb()
@@ -89,13 +126,4 @@ class manager
         return $this->_key;
     }
 
-    public function getGuidDb()
-    {
-        if (empty($this->_guid)) {
-            $this->_guid = $this->
-                caller->
-                getDb('GlobalGuid');
-        }
-        return $this->_guid;
-    }
 }
