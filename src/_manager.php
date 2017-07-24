@@ -5,8 +5,8 @@ ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\manager';
 
 class manager
 {
-    private $_key;
     private $_guid;
+    private $_key;
 
     public function __invoke()
     {
@@ -27,8 +27,8 @@ class manager
                 return $this->hasGuid($newGuid);
             }
         );
-        $gloKey = $this->getKeyDb();
-        $gloGuid= $this->getGuidDb();
+        $gloGuid= $this->_getGuidDb();
+        $gloKey = $this->_getKeyDb();
         $gloKey[$newGuid] = $key;
         $gloGuid[$key] = $newGuid;
         return $newGuid;
@@ -37,8 +37,8 @@ class manager
     public function remove($guid)
     {
         if ($this->hasGuid($guid)) {
-            $gloKey = $this->getKeyDb();
-            $gloGuid= $this->getGuidDb();
+            $gloGuid= $this->_getGuidDb();
+            $gloKey = $this->_getKeyDb();
             $key = $this->getKey($guid);
             unset($gloGuid[$key]);
             unset($gloKey[$guid]);
@@ -59,8 +59,8 @@ class manager
         if (!$this->hasGuid($guid)) {
             return !trigger_error('Guid not exits. ['.$guid.']');
         }
-        $gloKey = $this->getKeyDb();
-        $gloGuid= $this->getGuidDb();
+        $gloGuid= $this->_getGuidDb();
+        $gloKey = $this->_getKeyDb();
         $oldKey = $this->getKey($guid);
         $gloKey[$guid] = $newKey;
         unset($gloGuid[$oldKey]);
@@ -68,16 +68,16 @@ class manager
         return 0;
     }
 
-    public function hasKey($key)
-    {
-        $db = $this->getGuidDb();
-        return isset($db[$key]);
-    }
-
     public function hasGuid($guid)
     {
-        $db = $this->getKeyDb();
+        $db = $this->_getKeyDb();
         return isset($db[$guid]);
+    }
+
+    public function hasKey($key)
+    {
+        $db = $this->_getGuidDb();
+        return isset($db[$key]);
     }
 
     public function getGuid($key)
@@ -85,12 +85,12 @@ class manager
         if (!strlen($key)) {
             return !trigger_error('Key should not empty for extract guid.');
         }
-        return $this->getGuidDb()[$key];
+        return $this->_getGuidDb()[$key];
     }
 
     public function getGuids()
     {
-        return $this->getGuidDb()[null];
+        return $this->_getGuidDb()[null];
     }
 
     public function getKey($guid)
@@ -98,30 +98,30 @@ class manager
         if (!strlen($guid)) {
             return !trigger_error('Guid should not empty for extract key.');
         }
-        return $this->getKeyDb()[$guid];
+        return $this->_getKeyDb()[$guid];
     }
 
     public function getKeys()
     {
-        return $this->getKeyDb()[null];
+        return $this->_getKeyDb()[null];
     }
 
-    public function getGuidDb()
+    private function _getGuidDb()
     {
         if (empty($this->_guid)) {
             $this->_guid = $this->
                 caller->
-                getDb('GlobalGuid');
+                getDb('GlobalKeyGuid');
         }
         return $this->_guid;
     }
 
-    public function getKeyDb()
+    private function _getKeyDb()
     {
         if (empty($this->_key)) {
             $this->_key = $this->
                 caller->
-                getDb('GlobalKey');
+                getDb('GlobalGuidKey');
         }
         return $this->_key;
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace IdOfThings;
 
 use PHPUnit_Framework_TestCase;
