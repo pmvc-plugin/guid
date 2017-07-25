@@ -1,7 +1,10 @@
 <?php
+
 namespace IdOfThings\dbs;
 
-class session extends \IdOfThings\BaseGuidTempDb
+use IdOfThings\BaseGuidTempDb;
+
+class session extends BaseGuidTempDb
 {
     protected $groupKey='session';
 
