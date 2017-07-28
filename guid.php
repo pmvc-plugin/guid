@@ -23,11 +23,23 @@ class guid extends \PMVC\PlugIn
         }
     }
 
-    private function _getPrivateDb($key)
+    private function _getPrivateDbPlugin()
     {
-        $private = $this->getPrivateDbPlugin();
+        if (is_null($this->_privateDbPlugin)) {
+           if (\PMVC\exists($this['privateDb'],'plug')) {
+                $this->_privateDbPlugin = \PMVC\plug($this['privateDb']);
+           } else {
+                $this->_privateDbPlugin = false; 
+           }
+        }
+        return $this->_privateDbPlugin;
+    }
+
+    private function _getPrivateDb($key, $storage=null)
+    {
+        $private = $this->_getPrivateDbPlugin();
         if ($private) {
-            $db = $private->getDb($key, $key);
+            $db = $private->getDb($key, $key, $storage);
             if ($db) {
                 $this->dbs[$key] = $db;
 
@@ -40,19 +52,7 @@ class guid extends \PMVC\PlugIn
         }
     }
 
-    private function getPrivateDbPlugin()
-    {
-        if (is_null($this->_privateDbPlugin)) {
-           if (\PMVC\exists($this['privateDb'],'plug')) {
-                $this->_privateDbPlugin = \PMVC\plug($this['privateDb']);
-           } else {
-                $this->_privateDbPlugin = false; 
-           }
-        }
-        return $this->_privateDbPlugin;
-    }
-
-    private function _getPublicDb($key)
+    private function _getPublicDb($key, $storage=null)
     {
         $class =  __NAMESPACE__.'\\dbs\\'.$key;
         if (!class_exists($class)) {
@@ -61,22 +61,18 @@ class guid extends \PMVC\PlugIn
                 E_USER_WARNING
             );
         }
-        $storage = $this->getStorage();
         if (empty($storage)) {
-            return !trigger_error(
-                '[GUID] Get storage failed.',
-                E_USER_WARNING
-            );
+            $storage = $this->getStorage();
         }
         $this->dbs[$key] = new $class($storage);
         return true;
     }
 
-    public function getDb($key)
+    public function getDb($key, $storage=null)
     {
         if(empty($this->dbs[$key])){
-            if (!$this->_getPrivateDb($key)) {
-                $this->_getPublicDb($key);
+            if (!$this->_getPrivateDb($key, $storage)) {
+                $this->_getPublicDb($key, $storage);
             }
         }
         return $this->dbs[$key];
@@ -89,6 +85,13 @@ class guid extends \PMVC\PlugIn
                 'Default db plugin not setted. "guidDb"'
             );
         }
-        return \PMVC\plug($this['guidDb']);
+        $storage = \PMVC\plug($this['guidDb']);
+        if (empty($storage)) {
+            return !trigger_error(
+                '[GUID] Get storage failed.',
+                E_USER_WARNING
+            );
+        }
+        return $storage;
     }
 }

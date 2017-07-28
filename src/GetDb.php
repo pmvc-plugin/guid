@@ -12,10 +12,11 @@ abstract class GetDb extends \PMVC\PlugIn
     private $_connected = false;
 
     /**
-     * @param int    $id  group guid
-     * @param string $key group key
+     * @param int    $id      Group guid
+     * @param string $key     Group key
+     * @param object $storage Custom storage
      */
-    public function getDb($id,$key=null)
+    public function getDb($id, $key=null, $storage=null)
     {
         if (!$this->_connected) {
             return !trigger_error('Server is not connected.');
@@ -27,8 +28,11 @@ abstract class GetDb extends \PMVC\PlugIn
                 $nameSpace = $this->getNameSpace();
                 $class = $nameSpace.'\\dbs\\'.$key;
                 if(class_exists($class)){
+                    if (empty($storage)) {
+                        $storage = $this->getStorage();
+                    }
                     $this->dbs[$id] = new $class(
-                        $this->getStorage(),
+                        $storage,
                         $id 
                     );
                 } else {
