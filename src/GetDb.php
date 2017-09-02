@@ -1,5 +1,8 @@
 <?php
+
 namespace IdOfThings;
+
+use DomainException;
 
 abstract class GetDb extends \PMVC\PlugIn
 {
@@ -19,7 +22,9 @@ abstract class GetDb extends \PMVC\PlugIn
     public function getDb($id, $key=null, $storage=null)
     {
         if (!$this->_connected) {
-            return !trigger_error('Server is not connected.');
+            throw new DomainException (
+                'Server is not connected.'
+            );
         }
         if (!isset($this->dbs[$id])) { // $this->dbs[$id] possible equal false, so can't use empty.
             $path = $this->getDir().'src/dbs/'.$key.'.php';
