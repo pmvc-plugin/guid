@@ -31,8 +31,8 @@ class LucencyView  extends BaseGuidDb
         }
 
         $guid = \PMVC\plug('guid');
-        $newguid = $guid->gen(null, $callback);
-        return $key.$newguid;
+        $newGuid = $guid->gen(null, $callback);
+        return $key.$newGuid;
     }
 }
 
