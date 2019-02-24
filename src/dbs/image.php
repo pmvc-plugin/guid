@@ -15,18 +15,20 @@ class image extends BaseGuidDb
      */
     function addImg($url, $data=[])
     {
+        // handle url
         if (!empty($url)) {
             $data['url'] = $url;
         }
         $data['url'] = (string)$data['url'];
-        $hash = $this->getHash($data);
 
+        // handle cache
         $cache = 86400 * 365;
         if(empty($data['cache'])) {
             $data['cache'] = $cache;
         }
 
         // store
+        $hash = $this->getHash($data);
         $this->db[$hash->id] = $hash->json;
         $this->setExpire($hash->id, $data['cache']);
         return $hash->hash;
