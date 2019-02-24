@@ -13,23 +13,27 @@ class image extends BaseGuidDb
     /**
      * add 
      */
-    function addImg($url,$data=array()){
+    function addImg($url, $data=[])
+    {
         if (!empty($url)) {
             $data['url'] = $url;
         }
         $data['url'] = (string)$data['url'];
         $hash = $this->getHash($data);
-        $cache = 86400;
-        if( !empty($data['cache']) && $data['cache']>$cache){
-            $cache = $data['cache'];
+
+        $cache = 86400 * 365;
+        if(empty($data['cache'])) {
+            $data['cache'] = $cache;
         }
+
         // store
         $this->db[$hash->id] = $hash->json;
-        $this->setExpire($hash->id, $cache);
+        $this->setExpire($hash->id, $data['cache']);
         return $hash->hash;
     }
 
-    function getHash(array $data){
+    function getHash(array $data)
+    {
         $data[]=$this->_cdn_static_version;
         $return = new \stdClass();
         uksort($data, 'strnatcmp');
