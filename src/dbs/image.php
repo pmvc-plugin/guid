@@ -9,6 +9,7 @@ class image extends BaseGuidDb
 
     protected $groupKey='image';
     private $_cdn_static_version='2016123101';
+    const cache = 'cache';
 
     /**
      * add 
@@ -21,27 +22,33 @@ class image extends BaseGuidDb
         }
         $data['url'] = (string)$data['url'];
 
-        // handle cache
-        $cache = 86400 * 365;
-        if(empty($data['cache'])) {
-            $data['cache'] = $cache;
-        }
-
         // store
         $hash = $this->getHash($data);
         $this->db[$hash->id] = $hash->json;
-        $this->setExpire($hash->id, $data['cache']);
+        $this->setExpire($hash->id, $hash->cache);
         return $hash->hash;
+    }
+
+    private function _setDefaultCache($data)
+    {
+        // handle cache
+        $cache = 86400 * 365;
+        if(empty($data[self::cache])) {
+            $data[self::cache] = $cache;
+        }
+        return $data;
     }
 
     function getHash(array $data)
     {
         $data[]=$this->_cdn_static_version;
+        $data = $this->_setDefaultCache($data);
         $return = new \stdClass();
         uksort($data, 'strnatcmp');
         $return->json = json_encode($data);
         $return->hash = sha1($return->json);
         $return->id = $this->getCompositeKey($return->hash);
+        $return->cache = $data[self::cache];
         return $return;
     }
 
