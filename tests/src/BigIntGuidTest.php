@@ -68,7 +68,7 @@ class BigIntGuidTest extends PHPUnit_Framework_TestCase
 
     function testOldKey()
     {
-        $id = '1000830998665528309';
+        $id = '1000455392031058124';
         $p = \PMVC\plug($this->_plug);
         $actual = $p->verify($id);
         $this->assertEquals('20210405010203', $actual);
