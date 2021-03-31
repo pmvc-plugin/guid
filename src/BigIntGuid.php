@@ -12,7 +12,7 @@ class BigIntGuid
 
     private function _encodeStart($timestamp)
     {
-        return date('Y', $timestamp) + 1000 - $this->_start;
+        return gmdate('Y', $timestamp) + 1000 - $this->_start;
     }
 
     private function _decodeStart($year)
@@ -56,7 +56,7 @@ class BigIntGuid
 
     private function _gen($guidLen, $timestamp)
     {
-        $date = explode(' ', date('Y m d H i s', $timestamp));
+        $date = explode(' ', gmdate('Y m d H i s', $timestamp));
         $d_y = $this->_encodeStart($timestamp);
         $d_mon = $date[1];
         $d_day = $date[2];
@@ -66,7 +66,7 @@ class BigIntGuid
 
         $totalSec = sprintf(
             '%08d',
-            mktime($d_h, $d_min, $d_s, $d_mon, $d_day, 1970)
+            gmmktime($d_h, $d_min, $d_s, $d_mon, $d_day, 1970)
         );
         $totalSecLen = strlen($totalSec);
 
@@ -111,7 +111,7 @@ class BigIntGuid
 
     public function secToDate($sec)
     {
-        $date = explode(' ', date('Y m d H i s', $sec));
+        $date = explode(' ', gmdate('Y m d H i s', $sec));
         return [
             'mon' => $date[1],
             'day' => $date[2],

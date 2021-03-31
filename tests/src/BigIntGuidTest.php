@@ -50,7 +50,7 @@ class BigIntGuidTest extends PHPUnit_Framework_TestCase
 
     function testVerify()
     {
-        $timestamp = mktime(1, 2, 3, 4, 5, 2021);
+        $timestamp = gmmktime(1, 2, 3, 4, 5, 2021);
         $p = \PMVC\plug($this->_plug);
         $id = $p->gen(null, null, $timestamp);
         $actual = $p->verify($id);
@@ -59,7 +59,7 @@ class BigIntGuidTest extends PHPUnit_Framework_TestCase
 
     function testVerifyWithEdgeDate()
     {
-        $timestamp = mktime(1, 2, 3, 3, 31, 2021);
+        $timestamp = gmmktime(1, 2, 3, 3, 31, 2021);
         $p = \PMVC\plug($this->_plug);
         $id = $p->gen(null, null, $timestamp);
         $actual = $p->verify($id);
