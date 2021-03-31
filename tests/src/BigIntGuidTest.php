@@ -50,18 +50,27 @@ class BigIntGuidTest extends PHPUnit_Framework_TestCase
 
     function testVerify()
     {
-        $timestamp = mktime(1, 2, 3, 4, 5, 2017);
+        $timestamp = mktime(1, 2, 3, 4, 5, 2021);
         $p = \PMVC\plug($this->_plug);
         $id = $p->gen(null, null, $timestamp);
         $actual = $p->verify($id);
-        $this->assertEquals('20170405010203', $actual);
+        $this->assertEquals('20210405010203', $actual);
+    }
+
+    function testVerifyWithEdgeDate()
+    {
+        $timestamp = mktime(1, 2, 3, 3, 31, 2021);
+        $p = \PMVC\plug($this->_plug);
+        $id = $p->gen(null, null, $timestamp);
+        $actual = $p->verify($id);
+        $this->assertEquals('20210331010203', $actual);
     }
 
     function testOldKey()
     {
-        $id = '2015015191084693626';
+        $id = '1000830998665528309';
         $p = \PMVC\plug($this->_plug);
         $actual = $p->verify($id);
-        $this->assertEquals('30320705164331', $actual);
+        $this->assertEquals('20210405010203', $actual);
     }
 }
