@@ -10,9 +10,14 @@ class BigIntGuid
         $this->_start = $i;
     }
 
-    public function getStart($timestamp)
+    private function _encodeStart($timestamp)
     {
-        return 1000 + date('Y', $timestamp) - $this->_start;
+        return date('Y', $timestamp) + 1000 - $this->_start;
+    }
+
+    private function _decodeStart($year)
+    {
+        return $year - 1000 + $this->_start;
     }
 
     public function messOdd($number, $rand)
@@ -52,14 +57,17 @@ class BigIntGuid
     private function _gen($guidLen, $timestamp)
     {
         $date = explode(' ', date('Y m d H i s', $timestamp));
-        $d_y = $this->getStart($timestamp);
+        $d_y = $this->_encodeStart($timestamp);
         $d_mon = $date[1];
         $d_day = $date[2];
         $d_h = $date[3];
         $d_min = $date[4];
         $d_s = $date[5];
 
-        $totalSec = sprintf('%08d', mktime($d_h, $d_min, $d_s, $d_mon, $d_day, 1970));
+        $totalSec = sprintf(
+            '%08d',
+            mktime($d_h, $d_min, $d_s, $d_mon, $d_day, 1970)
+        );
         $totalSecLen = strlen($totalSec);
 
         $randlen = $guidLen - 1 - 8 - strlen($d_y);
@@ -78,7 +86,7 @@ class BigIntGuid
         $totalSec = (string) $totalSec;
         $rand = (string) $rand;
         for ($i = 0; $i < $totalSecLen; $i++) {
-            $rand0 = $this->popString($rand);
+            $rand0 = $this->_shiftString($rand);
             if ($isOdd) {
                 $newNumber .= $this->messOdd($totalSec[$startInsert], $rand0);
             } else {
@@ -113,13 +121,14 @@ class BigIntGuid
         ];
     }
 
-    public function popString(&$str)
+    private function _shiftString(&$str)
     {
         $first = '';
-        if (strlen($str)) {
+        $len = strlen($str);
+        if ($len) {
             $first = $str[0];
         }
-        $str = substr($str, 1, strlen($str));
+        $str = $len <= 1 ? '' : substr($str, 1, $len);
         return $first;
     }
 
@@ -144,25 +153,25 @@ class BigIntGuid
             if ($randLen) {
                 if ($isOdd) {
                     if ($startInsert < $totalSecLen) {
-                        $totalSec .= $this->popString($encode);
+                        $totalSec .= $this->_shiftString($encode);
                     } else {
-                        $totalSecHead .= $this->popString($encode);
+                        $totalSecHead .= $this->_shiftString($encode);
                     }
-                    $rand .= $this->popString($encode);
+                    $rand .= $this->_shiftString($encode);
                 } else {
-                    $rand .= $this->popString($encode);
+                    $rand .= $this->_shiftString($encode);
                     if ($startInsert < $totalSecLen) {
-                        $totalSec .= $this->popString($encode);
+                        $totalSec .= $this->_shiftString($encode);
                     } else {
-                        $totalSecHead .= $this->popString($encode);
+                        $totalSecHead .= $this->_shiftString($encode);
                     }
                 }
                 $randLen--;
             } else {
                 if ($startInsert < $totalSecLen) {
-                    $totalSec .= $this->popString($encode);
+                    $totalSec .= $this->_shiftString($encode);
                 } else {
-                    $totalSecHead .= $this->popString($encode);
+                    $totalSecHead .= $this->_shiftString($encode);
                 }
             }
             $startInsert++;
@@ -181,7 +190,7 @@ class BigIntGuid
             $date['sec'];
         $verifyMd5 = $this->getVerifyNo($d_string, $rand);
         if ($verifyMd5 == $lastMd5) {
-            return $year - 1000 + $this->_start . substr($d_string, 4);
+            return $this->_decodeStart($year) . substr($d_string, 4);
         } else {
             return false;
         }
