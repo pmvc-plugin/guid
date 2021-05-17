@@ -2,12 +2,12 @@
 
 namespace IdOfThings;
 
-use PHPUnit_Framework_TestCase;
+use PMVC\TestCase;
 
-class BaseDbTest extends PHPUnit_Framework_TestCase
+class BaseDbTest extends TestCase
 {
     private $plug = TestPlug;
-    function setup()
+    function pmvc_setup()
     {
         \PMVC\unplug($this->plug);
         $db_plug = 'fake_ssdb'; 

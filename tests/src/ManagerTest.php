@@ -8,9 +8,9 @@ class ManagerTest extends BaseDbTest
 
     private $_manager;
 
-    function setup()
+    function pmvc_setup()
     {
-        parent::setup();
+        parent::pmvc_setup();
         $this->_manager = \PMVC\plug($this->_plugin)->
             manager();
     }

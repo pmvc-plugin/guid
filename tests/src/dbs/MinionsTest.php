@@ -11,7 +11,7 @@ class MinionsTest extends BaseDbTest
         print_r($minionsDb);
         $output = ob_get_contents();
         ob_end_clean();
-        $this->assertContains('minions',$output);
+        $this->haveString('minions',$output);
     }
 }
 

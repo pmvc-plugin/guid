@@ -13,6 +13,9 @@
     "require": {
         "pmvc/pmvc": "*"
     },
+    "require-dev": {
+        "pmvc-plugin/unit": "*"
+    },
     "autoload": {
         "psr-4": {
             "IdOfThings\\": "./src"

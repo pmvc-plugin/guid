@@ -13,7 +13,7 @@ class GuidTest extends BaseDbTest
         print_r(PMVC\plug($this->plug));
         $output = ob_get_contents();
         ob_end_clean();
-        $this->assertContains($this->plug,$output);
+        $this->haveString($this->plug,$output);
     }
 
     function testGetDb()
