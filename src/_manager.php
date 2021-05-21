@@ -101,9 +101,9 @@ class manager
         return $this->_getKeyDb()[$guid];
     }
 
-    public function getKeys($key=null)
+    public function getKeys($guid=null)
     {
-        return $this->_getKeyDb()[$key];
+        return $this->_getKeyDb()[$guid];
     }
 
     private function _getGuidDb()
