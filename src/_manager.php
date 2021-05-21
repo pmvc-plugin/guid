@@ -90,6 +90,7 @@ class manager
 
     public function getGuids($key=null)
     {
+        // key for magic function (such as \PMVC\get)
         return $this->_getGuidDb()[$key];
     }
 
@@ -103,6 +104,7 @@ class manager
 
     public function getKeys($guid=null)
     {
+        // guid for magic function (such as \PMVC\get)
         return $this->_getKeyDb()[$guid];
     }
 
