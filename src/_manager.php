@@ -1,7 +1,7 @@
 <?php
 namespace IdOfThings;
 
-${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\manager';
+${_INIT_CONFIG}[_CLASS] = __NAMESPACE__ . '\manager';
 
 class manager
 {
@@ -13,38 +13,43 @@ class manager
         return $this;
     }
 
-    public function addNewKey($key)
+
+    /**
+     * assign $newGuid for import data
+     */
+    public function addNewKey($key, $newGuid = null)
     {
         if (!strlen($key)) {
             return !trigger_error('Key was empty.');
         }
         if ($this->hasKey($key)) {
-            return !trigger_error('Key already exits. ['.$key.']');
+            return !trigger_error('Key already exits. [' . $key . ']');
         }
-        $newGuid = $this->caller->gen(
-            null,
-            function ($newGuid) {
+        if (is_null($newGuid)) {
+            $newGuid = $this->caller->gen(null, function ($newGuid) {
                 return $this->hasGuid($newGuid);
-            }
-        );
-        $gloGuid= $this->_getGuidDb();
+            });
+        }
+        $gloGuid = $this->_getGuidDb();
         $gloKey = $this->_getKeyDb();
         $gloKey[$newGuid] = $key;
         $gloGuid[$key] = $newGuid;
         return $newGuid;
     }
 
-    public function remove($guid)
+    public function remove($guid, $noCheck = null)
     {
         if ($this->hasGuid($guid)) {
-            $gloGuid= $this->_getGuidDb();
+            $gloGuid = $this->_getGuidDb();
             $gloKey = $this->_getKeyDb();
             $key = $this->getKey($guid);
             unset($gloGuid[$key]);
             unset($gloKey[$guid]);
             return 0;
         } else {
-            return !trigger_error('Guid not exits. ['.$guid.']');
+            if (empty($noCheck)) {
+                return !trigger_error('Guid not exits. [' . $guid . ']');
+            }
         }
     }
 
@@ -54,12 +59,12 @@ class manager
             return !trigger_error('Key was empty.');
         }
         if ($this->hasKey($newKey)) {
-            return !trigger_error('Key already exits. ['.$newKey.']');
+            return !trigger_error('Key already exits. [' . $newKey . ']');
         }
         if (!$this->hasGuid($guid)) {
-            return !trigger_error('Guid not exits. ['.$guid.']');
+            return !trigger_error('Guid not exits. [' . $guid . ']');
         }
-        $gloGuid= $this->_getGuidDb();
+        $gloGuid = $this->_getGuidDb();
         $gloKey = $this->_getKeyDb();
         $oldKey = $this->getKey($guid);
         $gloKey[$guid] = $newKey;
@@ -88,7 +93,7 @@ class manager
         return $this->_getGuidDb()[$key];
     }
 
-    public function getGuids($key=null)
+    public function getGuids($key = null)
     {
         // key for magic function (such as \PMVC\get)
         return $this->_getGuidDb()[$key];
@@ -102,7 +107,7 @@ class manager
         return $this->_getKeyDb()[$guid];
     }
 
-    public function getKeys($guid=null)
+    public function getKeys($guid = null)
     {
         // guid for magic function (such as \PMVC\get)
         return $this->_getKeyDb()[$guid];
@@ -111,9 +116,7 @@ class manager
     private function _getGuidDb()
     {
         if (empty($this->_guid)) {
-            $this->_guid = $this->
-                caller->
-                getDb('GlobalKeyGuid');
+            $this->_guid = $this->caller->getDb('GlobalKeyGuid');
         }
         return $this->_guid;
     }
@@ -121,11 +124,8 @@ class manager
     private function _getKeyDb()
     {
         if (empty($this->_key)) {
-            $this->_key = $this->
-                caller->
-                getDb('GlobalGuidKey');
+            $this->_key = $this->caller->getDb('GlobalGuidKey');
         }
         return $this->_key;
     }
-
 }
