@@ -17,22 +17,22 @@ Id of things
 
 
 ## Global Table
-   * GlobalGuid
+   * GlobalKey
        * format: guid->key
        * https://github.com/pmvc-plugin/guid/blob/master/src/models/GlobalGuidKey.php
-   * GlobalKey
+       * Get Key
+          ```
+          \PMVC\plug('guid')->manager()->getKey($guid);
+          ```
+   * GlobalGuid
        * format: key->guid
        * https://github.com/pmvc-plugin/guid/blob/master/src/models/GlobalKeyGuid.php
+       * Get Guid
+          ```
+          \PMVC\plug('guid')->manager()->getGuid($key);
+          ```
 
-### Get Guid
-```
-\PMVC\plug('guid')->manager()->getGuid($key);
-```
 
-### Get Key
-```
-\PMVC\plug('guid')->manager()->getKey($guid);
-```
 
 
 ## Install with Composer
