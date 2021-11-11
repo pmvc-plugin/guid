@@ -8,41 +8,41 @@ ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__ . '\guid';
 
 class guid extends \PMVC\PlugIn
 {
-    private $dbs;
-    private $_privateDbPlugin = null;
+    private $_models;
+    private $_privateModelPlugin = null;
 
     /**
-     * @parameters string guidDb Default db plugin.
-     * @parameters string privateDb Private db plugin.
+     * @parameters string guidEngine Default engine.
+     * @parameters string privateMoel Private model getter plugin.
      */
     public function init()
     {
         $guid = new BigIntGuid();
         $this->setDefaultAlias($guid);
-        if (!isset($this['privateDb'])) {
-            $this['privateDb'] = 'guid_private_db';
+        if (!isset($this['privateModel'])) {
+            $this['privateModel'] = 'guid_private_model';
         }
     }
 
-    private function _getPrivateDbPlugin()
+    private function _getPrivateModelPlugin()
     {
-        if (is_null($this->_privateDbPlugin)) {
-            if (\PMVC\exists($this['privateDb'], 'plug')) {
-                $this->_privateDbPlugin = \PMVC\plug($this['privateDb']);
+        if (is_null($this->_privateModelPlugin)) {
+            if (\PMVC\exists($this['privateModel'], 'plug')) {
+                $this->_privateModelPlugin = \PMVC\plug($this['privateModel']);
             } else {
-                $this->_privateDbPlugin = false;
+                $this->_privateModelPlugin = false;
             }
         }
-        return $this->_privateDbPlugin;
+        return $this->_privateModelPlugin;
     }
 
-    private function _getPrivateDb($key, $storage = null)
+    private function _getPrivateModel($key, $engine)
     {
-        $private = $this->_getPrivateDbPlugin();
+        $private = $this->_getPrivateModelPlugin();
         if ($private) {
-            $db = $private->getDb($key, $key, $storage);
-            if ($db) {
-                $this->dbs[$key] = $db;
+            $model = $private->getModel($key, $key, $engine);
+            if ($model) {
+                $this->_models[$key] = $model;
 
                 return true;
             } else {
@@ -53,46 +53,46 @@ class guid extends \PMVC\PlugIn
         }
     }
 
-    private function _getPublicDb($key, $storage = null)
+    private function _getPublicModel($key, $engine)
     {
-        $class = __NAMESPACE__ . '\\dbs\\' . $key;
+        $class = __NAMESPACE__ . '\\models\\' . $key;
         if (!class_exists($class)) {
             return !trigger_error(
-                '[GUID] Db not found [' . $class . ']',
+                'Model not found [' . $class . ']',
                 E_USER_WARNING
             );
         }
-        if (empty($storage)) {
-            $storage = $this->getStorage();
-        }
-        $this->dbs[$key] = new $class($storage);
+        $this->_models[$key] = new $class($engine);
         return true;
     }
 
-    public function getDb($key, $storage = null)
+    public function getModel($key, $engine = null)
     {
-        if (empty($this->dbs[$key])) {
-            if (!$this->_getPrivateDb($key, $storage)) {
-                $this->_getPublicDb($key, $storage);
+        if (empty($engine)) {
+            $engine = $this->getEngine();
+        }
+        if (empty($this->_models[$key])) {
+            if (!$this->_getPrivateModel($key, $engine)) {
+                $this->_getPublicModel($key, $engine);
             }
         }
-        return $this->dbs[$key];
+        return $this->_models[$key];
     }
 
-    public function getStorage()
+    public function getEngine()
     {
-        if (empty($this['guidDb'])) {
-            $this['guidDb'] = \PMVC\plug('get')->get('guidDb');
-            if (empty($this['guidDb'])) {
+        if (empty($this['guidEngine'])) {
+            $this['guidEngine'] = \PMVC\plug('get')->get('guidEngine');
+            if (empty($this['guidEngine'])) {
                 throw new DomainException(
-                    'Default db plugin not setted. "guidDb"'
+                    'Default db plugin not setted. "guidEngine"'
                 );
             }
         }
-        $storage = \PMVC\plug($this['guidDb']);
-        if (empty($storage)) {
-            return !trigger_error('[GUID] Get storage failed.', E_USER_WARNING);
+        $engine = \PMVC\plug($this['guidEngine']);
+        if (empty($engine)) {
+            return !trigger_error('[GUID] Get engine failed.', E_USER_WARNING);
         }
-        return $storage;
+        return $engine;
     }
 }

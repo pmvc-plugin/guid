@@ -2,9 +2,9 @@
 
 namespace IdOfThings;
 
-use PHPUnit_Framework_TestCase;
+use PMVC\TestCase;
 
-class BigIntGuidTest extends PHPUnit_Framework_TestCase
+class BigIntGuidTest extends TestCase
 {
     private $_plug = TestPlug;
     function testGenCallback()

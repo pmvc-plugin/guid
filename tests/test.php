@@ -4,7 +4,7 @@ namespace IdOfThings;
 
 use PMVC;
 
-class GuidTest extends BaseDbTest
+class GuidTest extends BaseModelTest
 {
     private $plug = TestPlug;
     function testPlugin()
@@ -13,14 +13,14 @@ class GuidTest extends BaseDbTest
         print_r(PMVC\plug($this->plug));
         $output = ob_get_contents();
         ob_end_clean();
-        $this->haveString($this->plug,$output);
+        $this->haveString($this->plug, $output);
     }
 
-    function testGetDb()
+    function testGetModel()
     {
-        $fake_db = 'PMVC\HashMap';
-        $db = PMVC\plug($this->plug)->getDb('GlobalKeyGuid');
-        $this->assertEquals($fake_db,get_class($db->db));
+        $fakeModel = 'PMVC\HashMap';
+        $model = PMVC\plug($this->plug)->getModel('GlobalKeyGuid');
+        $this->assertEquals($fakeModel, get_class($model->getEngineModel()));
     }
 
     /**
@@ -28,17 +28,13 @@ class GuidTest extends BaseDbTest
      */
     function testSyntaxError()
     {
-        $files = glob(__DIR__.'/../src/dbs/*.php');
+        $files = glob(__DIR__ . '/../src/models/*.php');
         foreach ($files as $f) {
-            $r = exec('php -l '.$f);
+            $r = exec('php -l ' . $f);
             if (is_null($r)) {
                 $r = 'No syntax errors';
             }
-            $this->assertStringStartsWith('No syntax errors', (string)$r);
+            $this->assertStringStartsWith('No syntax errors', (string) $r);
         }
     }
 }
-
-
-
-

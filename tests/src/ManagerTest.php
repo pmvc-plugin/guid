@@ -2,7 +2,7 @@
 
 namespace IdOfThings;
 
-class ManagerTest extends BaseDbTest 
+class ManagerTest extends BaseModelTest 
 {
     private $_plugin = TestPlug;
 

@@ -30,8 +30,8 @@ class manager
                 return $this->hasGuid($newGuid);
             });
         }
-        $gloGuid = $this->_getGuidDb();
-        $gloKey = $this->_getKeyDb();
+        $gloGuid = $this->_getGuidModel();
+        $gloKey = $this->_getKeyModel();
         $gloKey[$newGuid] = $key;
         $gloGuid[$key] = $newGuid;
         return $newGuid;
@@ -40,8 +40,8 @@ class manager
     public function remove($guid, $noCheck = null)
     {
         if ($this->hasGuid($guid)) {
-            $gloGuid = $this->_getGuidDb();
-            $gloKey = $this->_getKeyDb();
+            $gloGuid = $this->_getGuidModel();
+            $gloKey = $this->_getKeyModel();
             $key = $this->getKey($guid);
             unset($gloGuid[$key]);
             unset($gloKey[$guid]);
@@ -64,8 +64,8 @@ class manager
         if (!$this->hasGuid($guid)) {
             return !trigger_error('Guid not exits. [' . $guid . ']');
         }
-        $gloGuid = $this->_getGuidDb();
-        $gloKey = $this->_getKeyDb();
+        $gloGuid = $this->_getGuidModel();
+        $gloKey = $this->_getKeyModel();
         $oldKey = $this->getKey($guid);
         $gloKey[$guid] = $newKey;
         unset($gloGuid[$oldKey]);
@@ -75,14 +75,14 @@ class manager
 
     public function hasGuid($guid)
     {
-        $db = $this->_getKeyDb();
-        return isset($db[$guid]);
+        $model = $this->_getKeyModel();
+        return isset($model[$guid]);
     }
 
     public function hasKey($key)
     {
-        $db = $this->_getGuidDb();
-        return isset($db[$key]);
+        $model = $this->_getGuidModel();
+        return isset($model[$key]);
     }
 
     public function getGuid($key)
@@ -90,13 +90,13 @@ class manager
         if (!strlen($key)) {
             return !trigger_error('Key should not empty for extract guid.');
         }
-        return $this->_getGuidDb()[$key];
+        return $this->_getGuidModel()[$key];
     }
 
     public function getGuids($key = null)
     {
         // key for magic function (such as \PMVC\get)
-        return $this->_getGuidDb()[$key];
+        return $this->_getGuidModel()[$key];
     }
 
     public function getKey($guid)
@@ -104,27 +104,27 @@ class manager
         if (!strlen($guid)) {
             return !trigger_error('Guid should not empty for extract key.');
         }
-        return $this->_getKeyDb()[$guid];
+        return $this->_getKeyModel()[$guid];
     }
 
     public function getKeys($guid = null)
     {
         // guid for magic function (such as \PMVC\get)
-        return $this->_getKeyDb()[$guid];
+        return $this->_getKeyModel()[$guid];
     }
 
-    private function _getGuidDb()
+    private function _getGuidModel()
     {
         if (empty($this->_guid)) {
-            $this->_guid = $this->caller->getDb('GlobalKeyGuid');
+            $this->_guid = $this->caller->getModel('GlobalKeyGuid');
         }
         return $this->_guid;
     }
 
-    private function _getKeyDb()
+    private function _getKeyModel()
     {
         if (empty($this->_key)) {
-            $this->_key = $this->caller->getDb('GlobalGuidKey');
+            $this->_key = $this->caller->getModel('GlobalGuidKey');
         }
         return $this->_key;
     }
