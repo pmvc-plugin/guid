@@ -19,10 +19,10 @@ Id of things
 ## Global Table
    * GlobalGuid
        * format: guid->key
-       * https://github.com/pmvc-plugin/guid/blob/master/src/models/GlobalGuid.php
+       * https://github.com/pmvc-plugin/guid/blob/master/src/models/GlobalGuidKey.php
    * GlobalKey
        * format: key->guid
-       * https://github.com/pmvc-plugin/guid/blob/master/src/models/GlobalKey.php
+       * https://github.com/pmvc-plugin/guid/blob/master/src/models/GlobalKeyGuid.php
 
 ### Get Guid
 ```
