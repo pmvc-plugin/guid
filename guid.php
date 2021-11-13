@@ -20,7 +20,7 @@ class guid extends \PMVC\PlugIn
         $guid = new BigIntGuid();
         $this->setDefaultAlias($guid);
         if (!isset($this['privateModel'])) {
-            $this['privateModel'] = 'guid_private_model';
+            $this['privateModel'] = 'private_model';
         }
     }
 

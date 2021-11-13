@@ -4,13 +4,27 @@ namespace IdOfThings;
 
 use ArrayAccess;
 
+/**
+ * Design idea.
+ *
+ * 1. each modle could assign with different engine
+ * 2. could have multi instance.
+ * 3. modelKey use for code (php code).
+ * 4. modelTable use in storage (Aka the real table name).
+ * 5. Both moelKey and modelTable could remap to new name,
+ *    and they could defined inside guid plugin. ($guid['tables']['xxx'] and $guid['keys']['xxx'])
+ * 6. should only GlobalGuidKey and GlobalKeyGuid define start from modelTable.
+ * 7. Other models should defined from modelKey and they'll query modelTable from GlobalKeyGuid.
+ * 8. When models get modelTable, the modelTable will pass to engineModel.
+ *
+ */
 class BaseModel implements ArrayAccess
 {
     protected $modelKey;
     protected $modelTable;
     protected $engineModel;
 
-    public function __construct($engine)
+    public function __construct($engine, $modelTable = null)
     {
         $pGuid = \PMVC\plug('guid');
         if (!empty($this->modelTable)) {
