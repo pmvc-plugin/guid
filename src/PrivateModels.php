@@ -2,7 +2,7 @@
 
 namespace IdOfThings;
 
-abstract class PrivateModel extends GetModel
+abstract class PrivateModels extends GetModel
 {
     public function init()
     {

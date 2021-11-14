@@ -9,7 +9,7 @@ ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__ . '\guid';
 class guid extends \PMVC\PlugIn
 {
     private $_models;
-    private $_privateModelPlugin = null;
+    private $_privateModelsPlugin = null;
 
     /**
      * @parameters string guidEngine Default engine.
@@ -19,28 +19,29 @@ class guid extends \PMVC\PlugIn
     {
         $guid = new BigIntGuid();
         $this->setDefaultAlias($guid);
-        if (!isset($this['privateModel'])) {
-            $this['privateModel'] = 'private_model';
+        if (!isset($this['privateModels'])) {
+            $this['privateModels'] = 'private_models';
         }
     }
 
-    private function _getPrivateModelPlugin()
+    private function _getPrivateModelsPlugin()
     {
-        if (is_null($this->_privateModelPlugin)) {
-            if (\PMVC\exists($this['privateModel'], 'plug')) {
-                $this->_privateModelPlugin = \PMVC\plug($this['privateModel']);
+        if (is_null($this->_privateModelsPlugin)) {
+            if (\PMVC\exists($this['privateModels'], 'plug')) {
+                $this->_privateModelsPlugin = \PMVC\plug(
+                    $this['privateModels']
+                );
             } else {
-                $this->_privateModelPlugin = false;
+                $this->_privateModelsPlugin = false;
             }
         }
-        return $this->_privateModelPlugin;
+        return $this->_privateModelsPlugin;
     }
 
-    private function _getPrivateModel($key, $engine)
+    private function _getModels($key, $engine, $modelsGetter)
     {
-        $private = $this->_getPrivateModelPlugin();
-        if ($private) {
-            $model = $private->getModel($key, $key, $engine);
+        if ($modelsGetter) {
+            $model = $modelsGetter->getModel($key, $key, $engine);
             if ($model) {
                 $this->_models[$key] = $model;
 
@@ -53,7 +54,7 @@ class guid extends \PMVC\PlugIn
         }
     }
 
-    private function _getPublicModel($key, $engine)
+    private function _getPublicModels($key, $engine)
     {
         $class = __NAMESPACE__ . '\\models\\' . $key;
         if (!class_exists($class)) {
@@ -72,8 +73,13 @@ class guid extends \PMVC\PlugIn
             $engine = $this->getEngine();
         }
         if (empty($this->_models[$key])) {
-            if (!$this->_getPrivateModel($key, $engine)) {
-                $this->_getPublicModel($key, $engine);
+            $hasPrivateModel = $this->_getModels(
+                $key,
+                $engine,
+                $this->_getPrivateModelsPlugin()
+            );
+            if (!$hasPrivateModel) {
+                $this->_getPublicModels($key, $engine);
             }
         }
         return $this->_models[$key];
