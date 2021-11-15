@@ -16,7 +16,7 @@ abstract class PrivateModels extends GetModel
 
     public function getEngine()
     {
-        return \PMVC\plug('guid')->getStorage();
+        return \PMVC\plug('guid')->getEngine();
     }
 
     public function getFailback($id)
